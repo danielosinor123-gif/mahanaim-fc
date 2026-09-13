@@ -1,0 +1,14 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Staff content guide — Mahanaim FC</title><meta name="description" content="How non-technical staff update Mahanaim FC content."><link rel="stylesheet" href="/assets/css/main.css"></head><body>
+<a class="skip" href="#main">Skip to main content</a><header class="top"><div class="bar"><a class="brand" href="/"><span class="crest" aria-hidden="true">MFC</span><span>Mahanaim FC<small>Staff guide</small></span></a></div></header>
+<main id="main"><div class="wrap"><section class="block">
+<h1>Staff: updating the site (no coding needed)</h1>
+<ol><li><strong>Players:</strong> open <code>/data/players.json</code> in Notepad. Copy a block, change name/position/number. Set <code>"status":"current"</code>. Only add a photo filename after signed consent. Then edit <code>/players/index.html</code> card to match (same order).</li>
+<li><strong>Results/fixtures:</strong> add a row to <code>/data/fixtures.json</code> AND to the table in <code>/fixtures/index.html</code>. Never invent scores.</li>
+<li><strong>News:</strong> copy <code>/news/golden-eaglets-4-2/index.html</code> to a new folder, rewrite title/date/body; add a card to <code>/news/index.html</code> and <code>/data/news.json</code>. Every image needs alt text.</li>
+<li><strong>Photos:</strong> put approved images in <code>/assets/images/</code>, keep each under ~200KB (resize on your phone), reference by filename.</li>
+<li><strong>Before publishing:</strong> check the approval list in <code>docs/ASSUMPTIONS.md</code> — anything marked REPORTED/PROPOSED/CONTENT REQUIRED needs a board sign-off first.</li></ol>
+<p class="small">Phase 2 option: import the JSON files into Supabase using <code>/supabase/schema.sql</code> and replace mailto forms with authenticated writes. Until then there is no admin login — which means there is nothing for attackers to log into.</p>
+</section></div></main>
+<footer class="site"><div class="wrap"><p class="small">© <span data-year>2026</span> Mahanaim FC</p></div></footer>
+<script src="/assets/js/main.js" defer></script></body></html>
