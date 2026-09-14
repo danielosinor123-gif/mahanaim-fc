@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import PlayerCard from '@/components/PlayerCard.astro';
 
 export async function getStaticPaths() {
   const players = await getCollection('players');
@@ -12,43 +13,97 @@ export async function getStaticPaths() {
 const { player } = Astro.props;
 const { Content } = await render(player);
 const d = player.data;
+const dob = d.dateOfBirth
+  ? new Date(d.dateOfBirth).toLocaleDateString('en-GB', { timeZone: 'UTC', day: 'numeric', month: 'long', year: 'numeric' })
+  : null;
+const squadmates = (await getCollection('players'))
+  .filter((p) => p.id !== player.id && p.data.position === d.position)
+  .slice(0, 3);
 ---
 
 <BaseLayout title={d.name} description={`${d.name}, Mahanaim FC ${d.positionDetail ?? d.position}. Squad number ${d.squadNumber ?? 'TBC'}.`}>
   <Fragment slot="header"><Header /></Fragment>
   <Fragment slot="footer"><Footer /></Fragment>
 
+  <!-- Player header -->
   <section class="bg-mfc-black text-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <p class="font-body text-mfc-grey-400 text-sm mb-2"><a href="/players" class="hover:text-mfc-gold">Players</a> / {d.name}</p>
+      <p class="font-body text-mfc-grey-400 text-sm mb-3"><a href="/players" class="hover:text-mfc-gold">Players</a> / <span class="text-mfc-grey-300">{d.team}</span></p>
       <div class="flex flex-col md:flex-row md:items-end gap-6">
+        {d.squadNumber !== undefined && <p class="font-display text-7xl md:text-8xl font-bold text-mfc-gold leading-none">{d.squadNumber}</p>}
         <div>
-          {d.squadNumber !== undefined && <p class="font-display text-7xl font-bold text-mfc-gold leading-none">{d.squadNumber}</p>}
-          <h1 class="font-display font-bold uppercase text-4xl mt-2">{d.name}</h1>
-          <p class="font-body text-mfc-grey-300 mt-2">{d.positionDetail ?? d.position} · {d.team}</p>
+          <h1 class="display-hero text-white">{d.name}</h1>
+          <p class="font-display uppercase text-lg text-mfc-gold tracking-widest mt-2 font-bold">{d.positionDetail ?? d.position}</p>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <img src={d.photo} alt={`${d.name}, Mahanaim FC ${d.positionDetail ?? d.position}`} width="640" height="853" loading="eager" class="w-full max-w-xs rounded-lg object-cover object-top aspect-[3/4] bg-mfc-grey-100" />
-      <div class="md:col-span-2">
-        <table class="w-full text-sm font-body border-collapse mb-6">
-          <tbody>
-            <tr class="border-b border-mfc-grey-100"><th scope="row" class="text-left py-2 pr-4 font-semibold">Position</th><td class="py-2">{d.positionDetail ?? d.position}</td></tr>
-            <tr class="border-b border-mfc-grey-100"><th scope="row" class="text-left py-2 pr-4 font-semibold">Squad</th><td class="py-2">{d.team}</td></tr>
-            <tr class="border-b border-mfc-grey-100"><th scope="row" class="text-left py-2 pr-4 font-semibold">Shirt number</th><td class="py-2">{d.squadNumber ?? 'To be confirmed'}</td></tr>
-            <tr class="border-b border-mfc-grey-100"><th scope="row" class="text-left py-2 pr-4 font-semibold">Nationality</th><td class="py-2">{d.nationality}</td></tr>
-          </tbody>
-        </table>
-        <article class="font-body text-mfc-grey-800 leading-relaxed">
-          <Content />
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <!-- Left: photo + details -->
+      <aside class="space-y-6">
+        <img src={d.photo} alt={`${d.name}, Mahanaim FC ${d.positionDetail ?? d.position}`} width="640" height="853" loading="eager" class="w-full rounded-lg object-cover object-top aspect-[3/4] bg-mfc-grey-100" />
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
+          <h2 class="font-display uppercase font-bold text-lg text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-4">Player's details</h2>
+          <table class="w-full font-body text-sm">
+            <tbody>
+              {dob && <tr class="border-b border-mfc-grey-100"><th scope="row" class="text-left py-2.5 pr-4 font-semibold text-mfc-grey-600 whitespace-nowrap align-top">Date of birth</th><td class="py-2.5">{dob}</td></tr>}
+              <tr class="border-b border-mfc-grey-100"><th scope="row" class="text-left py-2.5 pr-4 font-semibold text-mfc-grey-600 whitespace-nowrap align-top">Nationality</th><td class="py-2.5">{d.nationality}</td></tr>
+              {d.birthPlace && <tr class="border-b border-mfc-grey-100"><th scope="row" class="text-left py-2.5 pr-4 font-semibold text-mfc-grey-600 whitespace-nowrap align-top">Birth place</th><td class="py-2.5">{d.birthPlace}</td></tr>}
+              {d.height && <tr class="border-b border-mfc-grey-100"><th scope="row" class="text-left py-2.5 pr-4 font-semibold text-mfc-grey-600 whitespace-nowrap align-top">Height</th><td class="py-2.5">{d.height}</td></tr>}
+              {d.weight && <tr class="border-b border-mfc-grey-100"><th scope="row" class="text-left py-2.5 pr-4 font-semibold text-mfc-grey-600 whitespace-nowrap align-top">Weight</th><td class="py-2.5">{d.weight}</td></tr>}
+              <tr class="border-b border-mfc-grey-100"><th scope="row" class="text-left py-2.5 pr-4 font-semibold text-mfc-grey-600 whitespace-nowrap align-top">Position</th><td class="py-2.5">{d.positionDetail ?? d.position}</td></tr>
+              {d.previousClub && <tr><th scope="row" class="text-left py-2.5 pr-4 font-semibold text-mfc-grey-600 whitespace-nowrap align-top">Previous club</th><td class="py-2.5">{d.previousClub}</td></tr>}
+            </tbody>
+          </table>
+        </div>
+        <a href="/join" class="btn-gold w-full justify-center">Apply for a Trial</a>
+      </aside>
+
+      <!-- Right: overview -->
+      <div class="lg:col-span-2">
+        <article class="bg-white border border-mfc-grey-100 p-6 md:p-8">
+          <p class="section-kicker">Overview</p>
+          <h2 class="section-title mb-5">Playing profile</h2>
+          <div class="font-body text-mfc-grey-800 leading-relaxed space-y-4 prose-quote">
+            <Content />
+          </div>
         </article>
-        <p class="font-body text-xs text-mfc-grey-600 mt-6">Details are as published by the club and pending confirmation. Personal data beyond footballing information is not published — see our <a href="/club/governance" class="text-mfc-gold-hover font-semibold">governance page</a>.</p>
-        <a href="/join" class="btn-gold mt-6 inline-flex">Apply for a trial</a>
+
+        <div class="bg-mfc-off-white border-l-4 border-mfc-gold p-5 mt-6">
+          <p class="font-body text-xs text-mfc-grey-600">
+            Details and overview are as published by the club and pending final editorial approval.
+            Personal information is published by the club itself; players under 18 are shown with club-published
+            data only — no private contact details appear. Route scouting enquiries through the club via the
+            <a href="/contact" class="text-mfc-gold-hover font-semibold">contact page</a>.
+          </p>
+        </div>
       </div>
     </div>
+
+    <!-- Related players -->
+    {squadmates.length > 0 && (
+      <section class="mt-14" aria-labelledby="related">
+        <h2 id="related" class="section-title mb-6">More {d.position === 'Goalkeeper' ? 'goalkeepers' : d.position.toLowerCase() + 's'}</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-5 max-w-3xl">
+          {squadmates.map((p) => (
+            <PlayerCard name={p.data.name} position={p.data.position} positionDetail={p.data.positionDetail} squadNumber={p.data.squadNumber} photo={p.data.photo} slug={p.id} />
+          ))}
+        </div>
+      </section>
+    )}
   </div>
 </BaseLayout>
+
+<style>
+  .prose-quote :global(blockquote) {
+    margin: 0 0 1rem 0;
+    padding: 0;
+    border: none;
+  }
+  .prose-quote :global(em) {
+    color: var(--color-mfc-grey-600);
+    font-size: 0.85rem;
+  }
+</style>
