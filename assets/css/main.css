@@ -43,3 +43,7 @@ input[aria-invalid="true"]{border-color:#c0392b}.err{color:#9c2318;font-size:.85
 img{max-width:100%;height:auto;border-radius:8px}
 @media(max-width:720px){nav.main{display:none}nav.main.open{display:block;width:100%}nav.main ul{flex-direction:column}.menu-btn{display:inline-block;margin-left:auto}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+.crest-img{width:40px;height:40px;border-radius:10px;flex:none;background:#fff}
+.card img{width:100%;height:auto;border-radius:8px}
+.team-grid img{aspect-ratio:1/1;object-fit:cover}
