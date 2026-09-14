@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+const staff = (await getCollection('staff')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Technical Staff" description="Mahanaim FC technical staff and support, as published by the club.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">Technical Staff</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">Staff and support team as published on the club's official site — pending final confirmation.</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="overflow-x-auto">
+      <table class="w-full font-body text-sm border-collapse">
+        <thead>
+          <tr class="bg-mfc-off-white text-left"><th scope="col" class="py-3 px-4 font-semibold">Name</th><th scope="col" class="py-3 px-4 font-semibold">Role</th><th scope="col" class="py-3 px-4 font-semibold">Department</th></tr>
+        </thead>
+        <tbody>
+          {staff.map((s) => (
+            <tr class="border-b border-mfc-grey-100">
+              <td class="py-3 px-4">{s.data.name}</td>
+              <td class="py-3 px-4">{s.data.role}</td>
+              <td class="py-3 px-4 text-mfc-grey-600">{s.data.department}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,209 @@
+---
+interface Props {
+  opponent: string;
+  competition: string;
+  date: Date | string;
+  kickoff?: string;
+  venue: string;
+  isHome: boolean;
+  status: 'Scheduled' | 'Completed' | 'Postponed' | 'Cancelled' | string;
+  homeScore?: number;
+  awayScore?: number;
+  matchReportSlug?: string;
+}
+
+const {
+  opponent,
+  competition,
+  date,
+  kickoff,
+  venue,
+  isHome,
+  status,
+  homeScore,
+  awayScore,
+  matchReportSlug,
+} = Astro.props;
+
+const dateObj = typeof date === 'string' ? new Date(date) : date;
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  weekday: 'short',
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
+}).format(dateObj);
+
+const isoDate = !isNaN(dateObj.getTime()) ? dateObj.toISOString() : undefined;
+
+const homeTeam = isHome ? 'Mahanaim FC' : opponent;
+const awayTeam = isHome ? opponent : 'Mahanaim FC';
+
+const isCompleted = status.toLowerCase() === 'completed';
+const isPostponed = status.toLowerCase() === 'postponed';
+const isCancelled = status.toLowerCase() === 'cancelled';
+---
+
+<article class="border-b border-mfc-grey-300 py-4 md:py-5 last:border-b-0">
+  <!-- Desktop Layout (horizontal on md and above) -->
+  <div class="hidden md:grid md:grid-cols-12 md:items-center md:gap-4">
+    <!-- Left column: Competition name above, Date below -->
+    <div class="md:col-span-3">
+      <span class="block font-display font-bold text-xs uppercase tracking-wider text-mfc-grey-600">
+        {competition}
+      </span>
+      <time datetime={isoDate} class="font-body text-sm text-mfc-grey-800 font-medium block mt-0.5">
+        {formattedDate}
+      </time>
+      {kickoff && !isCompleted && !isPostponed && !isCancelled && (
+        <span class="font-body text-xs text-mfc-grey-600 block mt-0.5">
+          Kickoff: {kickoff}
+        </span>
+      )}
+    </div>
+
+    <!-- Center column: Teams & Score / Status -->
+    <div class="md:col-span-6 flex items-center justify-center gap-3 lg:gap-5">
+      <!-- Home team (right-aligned) -->
+      <div class="flex-1 text-right">
+        <span
+          class:list={[
+            'font-display uppercase text-lg tracking-tight',
+            isHome ? 'font-bold text-mfc-black' : 'font-semibold text-mfc-grey-800',
+          ]}
+        >
+          {homeTeam}
+        </span>
+      </div>
+
+      <!-- Center display: Score, Status badge, or Kickoff time -->
+      <div class="shrink-0 text-center min-w-[5.5rem]">
+        {isCompleted ? (
+          <div class="score flex items-center justify-center gap-1.5" aria-label={`Score: ${homeTeam} ${homeScore ?? 0}, ${awayTeam} ${awayScore ?? 0}`}>
+            <span>{homeScore ?? 0}</span>
+            <span class="text-mfc-grey-300 font-body text-lg font-normal select-none">-</span>
+            <span>{awayScore ?? 0}</span>
+          </div>
+        ) : isPostponed ? (
+          <span class="inline-block bg-amber-100 text-amber-800 border border-amber-300 font-display font-bold text-xs uppercase px-2.5 py-1 tracking-wider">
+            Postponed
+          </span>
+        ) : isCancelled ? (
+          <span class="inline-block bg-red-100 text-red-800 border border-red-300 font-display font-bold text-xs uppercase px-2.5 py-1 tracking-wider">
+            Cancelled
+          </span>
+        ) : (
+          <span class="font-display font-bold text-base text-mfc-grey-800 bg-mfc-grey-100 px-3 py-1 rounded-sm tracking-wider uppercase">
+            {kickoff || 'VS'}
+          </span>
+        )}
+      </div>
+
+      <!-- Away team (left-aligned) -->
+      <div class="flex-1 text-left">
+        <span
+          class:list={[
+            'font-display uppercase text-lg tracking-tight',
+            !isHome ? 'font-bold text-mfc-black' : 'font-semibold text-mfc-grey-800',
+          ]}
+        >
+          {awayTeam}
+        </span>
+      </div>
+    </div>
+
+    <!-- Right column: Venue and optional Match Report link -->
+    <div class="md:col-span-3 text-right">
+      <span class="font-body text-xs text-mfc-grey-600 block truncate" title={venue}>
+        {venue}
+      </span>
+      {matchReportSlug && (
+        <a
+          href={`/news/${matchReportSlug}`}
+          class="font-display font-bold text-sm uppercase text-mfc-gold hover:text-mfc-gold-hover hover:underline inline-flex items-center gap-1 mt-1 transition-colors"
+        >
+          Match Report
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </a>
+      )}
+    </div>
+  </div>
+
+  <!-- Mobile Layout (stacked on screens < md) -->
+  <div class="md:hidden flex flex-col gap-2.5">
+    <!-- Top row: Competition name above, Date right-aligned -->
+    <div class="flex items-center justify-between text-xs gap-2">
+      <span class="font-display font-bold uppercase tracking-wider text-mfc-grey-600">
+        {competition}
+      </span>
+      <time datetime={isoDate} class="font-body text-mfc-grey-600">
+        {formattedDate} {kickoff && !isCompleted ? `• ${kickoff}` : ''}
+      </time>
+    </div>
+
+    <!-- Middle row: Teams & Score / Status -->
+    <div class="flex items-center justify-between gap-2 py-1">
+      <div class="flex-1 text-right">
+        <span
+          class:list={[
+            'font-display uppercase text-base tracking-tight',
+            isHome ? 'font-bold text-mfc-black' : 'font-semibold text-mfc-grey-800',
+          ]}
+        >
+          {homeTeam}
+        </span>
+      </div>
+
+      <div class="px-2 shrink-0 text-center min-w-[4.5rem]">
+        {isCompleted ? (
+          <div class="score flex items-center justify-center gap-1" aria-label={`Score: ${homeTeam} ${homeScore ?? 0}, ${awayTeam} ${awayScore ?? 0}`}>
+            <span>{homeScore ?? 0}</span>
+            <span class="text-mfc-grey-300 font-body text-base font-normal select-none">-</span>
+            <span>{awayScore ?? 0}</span>
+          </div>
+        ) : isPostponed ? (
+          <span class="inline-block bg-amber-100 text-amber-800 border border-amber-300 font-display font-bold text-xs uppercase px-2 py-0.5 tracking-wider">
+            Postponed
+          </span>
+        ) : isCancelled ? (
+          <span class="inline-block bg-red-100 text-red-800 border border-red-300 font-display font-bold text-xs uppercase px-2 py-0.5 tracking-wider">
+            Cancelled
+          </span>
+        ) : (
+          <span class="font-display font-bold text-sm text-mfc-grey-800 bg-mfc-grey-100 px-2.5 py-0.5 rounded-sm tracking-wider uppercase">
+            {kickoff || 'VS'}
+          </span>
+        )}
+      </div>
+
+      <div class="flex-1 text-left">
+        <span
+          class:list={[
+            'font-display uppercase text-base tracking-tight',
+            !isHome ? 'font-bold text-mfc-black' : 'font-semibold text-mfc-grey-800',
+          ]}
+        >
+          {awayTeam}
+        </span>
+      </div>
+    </div>
+
+    <!-- Bottom row: Venue below, and Match Report link -->
+    <div class="flex items-center justify-between text-xs pt-1 border-t border-mfc-grey-100 gap-2">
+      <span class="font-body text-mfc-grey-600 truncate">
+        {venue}
+      </span>
+      {matchReportSlug && (
+        <a
+          href={`/news/${matchReportSlug}`}
+          class="font-display font-bold text-xs uppercase text-mfc-gold hover:text-mfc-gold-hover hover:underline inline-flex items-center gap-1 shrink-0 transition-colors"
+        >
+          Match Report &rarr;
+        </a>
+      )}
+    </div>
+  </div>
+</article>

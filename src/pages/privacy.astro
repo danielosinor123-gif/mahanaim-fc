@@ -1,0 +1,22 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="Privacy Policy" description="Mahanaim FC privacy notice — what data the site collects and why.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-3xl">
+    <h1 class="font-display font-bold uppercase text-3xl text-mfc-grey-800 border-l-2 border-mfc-gold pl-3">Privacy Policy <span class="font-body normal-case text-sm font-normal text-mfc-grey-600">· details pending club approval</span></h1>
+    <div class="font-body text-mfc-grey-800 leading-relaxed mt-6 space-y-4">
+      <p><strong>What we collect:</strong> only what you type into the application and enquiry forms (name, date of birth or age group, contact details, message). This site sets no tracking cookies and runs no analytics.</p>
+      <p><strong>Why:</strong> to respond to your application or enquiry about trials, partnerships, media and related matters.</p>
+      <p><strong>Where it goes:</strong> your email app sends your submission to mahanaimfc@hotmail.com. A draft copy may be kept in your browser's local storage until you clear it. Nothing is uploaded to a server by this site.</p>
+      <p><strong>Children:</strong> data of players under 18 is only collected via a parent/guardian, with consent.</p>
+      <p><strong>Your rights:</strong> ask for correction or deletion of your data any time via the <a href="/contact" class="text-mfc-gold-hover font-semibold">contact page</a>. Data controller: [CONTENT REQUIRED FROM CLUB — name/contact to be confirmed].</p>
+      <p><strong>Changes:</strong> if analytics or additional tracking is added later, this policy will be updated and consent sought first.</p>
+    </div>
+  </div>
+</BaseLayout>

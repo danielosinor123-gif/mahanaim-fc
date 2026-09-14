@@ -1,0 +1,33 @@
+---
+interface Props {
+  phoneNumber?: string;
+  message?: string;
+}
+
+const {
+  phoneNumber = '2349074700128',
+  message = 'Hello Mahanaim FC, I would like to enquire about...',
+} = Astro.props;
+
+const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+---
+
+<a
+  href={whatsappUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="fixed bottom-6 right-6 z-40 flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-[#25D366] text-white rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-transform duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/50"
+  aria-label="Chat with Mahanaim FC on WhatsApp"
+>
+  <!-- WhatsApp SVG Icon (28x28) -->
+  <svg
+    class="w-7 h-7"
+    width="28"
+    height="28"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    <path d="M17.472 14.382c-.301-.15-1.78-.879-2.056-.98-.276-.1-.476-.15-.677.15-.201.3-.777.98-.953 1.18-.175.2-.351.226-.652.076-.301-.15-1.272-.469-2.424-1.497-.896-.799-1.502-1.787-1.678-2.088-.175-.3-.019-.463.132-.612.136-.134.301-.35.452-.525.15-.175.201-.3.301-.5.101-.2.05-.375-.025-.525-.075-.15-.677-1.633-.928-2.237-.245-.588-.494-.509-.678-.518-.175-.009-.376-.01-.577-.01-.201 0-.527.075-.803.375-.276.3-1.054 1.03-1.054 2.512 0 1.482 1.079 2.914 1.23 3.114.15.2 2.124 3.243 5.145 4.547.719.31 1.28.496 1.718.636.722.23 1.378.197 1.898.12.579-.088 1.78-.727 2.03-1.43.25-.702.25-1.304.176-1.43-.076-.126-.276-.201-.577-.351zM12.04 2c-5.523 0-10 4.477-10 10 0 1.76.455 3.414 1.25 4.862L2 22l5.313-1.225A9.957 9.957 0 0 0 12.04 22c5.523 0 10-4.477 10-10s-4.477-10-10-10z" />
+  </svg>
+</a>

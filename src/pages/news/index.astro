@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import NewsCard from '@/components/NewsCard.astro';
+
+const posts = (await getCollection('news', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const [lead, ...rest] = posts;
+---
+
+<BaseLayout title="News" description="Mahanaim FC news — match reports, club announcements and player stories.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">News</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">Match reports, club announcements and stories from Mahanaim FC.</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {lead && (
+      <section aria-label="Lead story">
+        <NewsCard
+          title={lead.data.title}
+          date={lead.data.date}
+          category={lead.data.category}
+          leadImage={lead.data.leadImage}
+          leadImageAlt={lead.data.leadImageAlt}
+          summary={lead.data.summary}
+          slug={lead.id}
+          featured={true}
+        />
+      </section>
+    )}
+    {rest.length > 0 && (
+      <section class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6" aria-label="More stories">
+        {rest.map((n) => (
+          <NewsCard
+            title={n.data.title}
+            date={n.data.date}
+            category={n.data.category}
+            leadImage={n.data.leadImage}
+            leadImageAlt={n.data.leadImageAlt}
+            summary={n.data.summary}
+            slug={n.id}
+          />
+        ))}
+      </section>
+    )}
+    {posts.length === 0 && <p class="font-body text-mfc-grey-600">No news published yet.</p>}
+  </div>
+</BaseLayout>

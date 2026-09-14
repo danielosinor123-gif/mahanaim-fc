@@ -1,0 +1,21 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="Page not found">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+    <h1 class="font-display font-bold uppercase text-4xl text-mfc-grey-800">Page not found</h1>
+    <p class="font-body text-mfc-grey-600 mt-4">That page doesn't exist. Try one of these instead:</p>
+    <div class="flex flex-wrap gap-4 justify-center mt-8">
+      <a href="/" class="btn-gold">Home</a>
+      <a href="/fixtures" class="inline-flex items-center px-6 py-3 border-2 border-mfc-grey-800 text-mfc-grey-800 font-display uppercase text-sm font-bold tracking-wider hover:bg-mfc-grey-100 transition-colors">Fixtures</a>
+      <a href="/players" class="inline-flex items-center px-6 py-3 border-2 border-mfc-grey-800 text-mfc-grey-800 font-display uppercase text-sm font-bold tracking-wider hover:bg-mfc-grey-100 transition-colors">Players</a>
+      <a href="/contact" class="inline-flex items-center px-6 py-3 border-2 border-mfc-grey-800 text-mfc-grey-800 font-display uppercase text-sm font-bold tracking-wider hover:bg-mfc-grey-100 transition-colors">Contact</a>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,37 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+const sections = [
+  { name: 'Our Story', href: '/club/story', desc: 'History, launch and what drives the club.' },
+  { name: 'Mission, Vision & Values', href: '/club/mission-vision-values', desc: 'The principles guiding our actions.' },
+  { name: 'Leadership & Staff', href: '/club/leadership', desc: 'Management board and staff as published.' },
+  { name: 'Facilities and Development Plan', href: '/club/facilities', desc: 'Current facilities vs the proposed 13-hectare development.' },
+  { name: 'Governance and Verified Affiliations', href: '/club/governance', desc: 'Ownership, finance and affiliation status.' },
+];
+---
+
+<BaseLayout title="The Club" description="About Mahanaim FC — history, mission, leadership, facilities and governance. Abuja, Nigeria. Est. 2018.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">The Club</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">Mahanaim Football Club — an association football team based in Abuja, Nigeria's capital city. Officially launched in 2018 (as stated by the club).</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {sections.map((s) => (
+        <a href={s.href} class="group block bg-mfc-off-white border border-mfc-grey-100 p-6 hover:border-mfc-gold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-mfc-gold">
+          <h2 class="font-display uppercase text-xl font-bold text-mfc-grey-800 group-hover:text-mfc-gold-hover transition-colors">{s.name}</h2>
+          <p class="font-body text-sm text-mfc-grey-600 mt-2">{s.desc}</p>
+        </a>
+      ))}
+    </div>
+    <img src="/images/about-club.jpg" alt="Mahanaim FC squad and officials gathered on the pitch" width="1000" height="562" loading="lazy" class="w-full rounded mt-10 object-cover" />
+  </div>
+</BaseLayout>

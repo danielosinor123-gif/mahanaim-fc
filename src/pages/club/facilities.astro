@@ -1,0 +1,45 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="Facilities and Development Plan" description="Mahanaim FC facilities — current activities and the proposed 13-hectare development plan. Proposed means proposed, not built.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">Facilities and Development Plan</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">A transparent split between what exists now and what is proposed. Planned items are clearly labelled — they are not completed.</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section aria-labelledby="current">
+      <h2 id="current" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">Current facilities <span class="font-body normal-case text-sm font-normal text-mfc-grey-600">· in use now</span></h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6"><h3 class="font-display uppercase font-bold text-mfc-grey-800">Training & matches</h3><p class="font-body text-sm text-mfc-grey-800 mt-2">Training and matches on available pitches in Abuja, including sessions referenced at Mahanaim Arena, Burundi Street, Wuse Zone 5.</p></div>
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6"><h3 class="font-display uppercase font-bold text-mfc-grey-800">Club office</h3><p class="font-body text-sm text-mfc-grey-800 mt-2">Metta Plaza, Suite FF7, Plot 100 Arab Road, Abuja 901002.</p></div>
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6"><h3 class="font-display uppercase font-bold text-mfc-grey-800">Match venues</h3><p class="font-body text-sm text-mfc-grey-800 mt-2">Vary by fixture — FIFA Goal Project, Moshood Abiola Stadium and others per published reports.</p></div>
+      </div>
+    </section>
+
+    <section class="mt-12" aria-labelledby="planned">
+      <h2 id="planned" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">Planned development <span class="font-body normal-case text-sm font-normal text-mfc-grey-600">· Project status: proposed, not built</span></h2>
+      <p class="font-body text-mfc-grey-800 max-w-3xl">As published by the club: a comprehensive masterplan on a <strong>13-hectare site</strong> located about 10 minutes from Nnamdi Azikiwe International Airport, Abuja (land status and approvals to be confirmed), comprising:</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+        {['Four training pitches', 'Modern hostels for player accommodation', 'Restaurants and dining facilities', 'Shopping mall for convenience and leisure', 'Media and events centre', 'Team camps for retreats and bonding', 'Recreation village', 'Mini estate for staff and officials', 'Flagship stadium as centrepiece'].map((item) => (
+          <div class="bg-mfc-off-white border border-mfc-grey-100 px-5 py-4 font-body text-sm text-mfc-grey-800 border-l-4 border-l-mfc-gold">
+            <span class="font-display font-bold text-mfc-gold text-xs uppercase block mb-1">Proposed</span>{item}
+          </div>
+        ))}
+      </div>
+      <div class="bg-mfc-off-white border border-mfc-grey-100 p-6 mt-6">
+        <h3 class="font-display uppercase font-bold text-mfc-grey-800">Intended benefits</h3>
+        <p class="font-body text-sm text-mfc-grey-800 mt-2">A holistic environment for player development, entertainment and community engagement — contingent on funding and approvals. No completion dates are claimed.</p>
+        <a href="/contact" class="btn-gold mt-4 inline-flex">Discuss a facilities partnership</a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import FixtureCard from '@/components/FixtureCard.astro';
+
+const all = await getCollection('fixtures');
+const upcoming = all
+  .filter((f) => ['Scheduled'].includes(f.data.status))
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+const results = all
+  .filter((f) => ['Completed', 'Postponed', 'Cancelled'].includes(f.data.status))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="Fixtures & Results" description="Mahanaim FC fixtures and results — friendlies and competitive matches, as published by the club.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">Fixtures & Results</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">Upcoming fixtures and completed results, as published by the club. No fixtures are invented — new matches appear here as soon as they are confirmed.</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section aria-labelledby="upcoming">
+      <h2 id="upcoming" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">Upcoming fixtures</h2>
+      {upcoming.length === 0 ? (
+        <p class="font-body text-sm text-mfc-grey-600 bg-mfc-off-white border border-mfc-grey-100 px-5 py-4">
+          No upcoming fixture has been published yet. Check back soon or <a href="/contact" class="text-mfc-gold-hover font-semibold">contact the club</a>.
+        </p>
+      ) : (
+        <div>{upcoming.map((f) => (
+          <FixtureCard opponent={f.data.opponent} competition={f.data.competition} date={f.data.date} kickoff={f.data.kickoff} venue={f.data.venue} isHome={f.data.isHome} status={f.data.status} matchReportSlug={f.data.matchReportSlug} />
+        ))}</div>
+      )}
+    </section>
+
+    <section class="mt-12" aria-labelledby="results">
+      <h2 id="results" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">Results</h2>
+      <div>{results.map((f) => (
+        <FixtureCard opponent={f.data.opponent} competition={f.data.competition} date={f.data.date} kickoff={f.data.kickoff} venue={f.data.venue} isHome={f.data.isHome} status={f.data.status} homeScore={f.data.homeScore} awayScore={f.data.awayScore} matchReportSlug={f.data.matchReportSlug} />
+      ))}</div>
+      <p class="font-body text-xs text-mfc-grey-600 mt-4">Scores and venues are as published by the club and pending final confirmation.</p>
+    </section>
+  </div>
+</BaseLayout>

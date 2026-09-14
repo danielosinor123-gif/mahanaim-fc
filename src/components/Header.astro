@@ -1,0 +1,377 @@
+---
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = Astro.url.pathname } = Astro.props;
+
+const clubLinks = [
+  { name: 'Our Story', href: '/club/story' },
+  { name: 'Mission Vision & Values', href: '/club/mission-vision-values' },
+  { name: 'Leadership & Staff', href: '/club/leadership' },
+  { name: 'Facilities & Development', href: '/club/facilities' },
+  { name: 'Governance & Affiliations', href: '/club/governance' },
+];
+
+const teamLinks = [
+  { name: 'First Team', href: '/teams/first-team' },
+  { name: 'Player Profiles', href: '/players' },
+  { name: 'Technical Staff', href: '/staff' },
+  { name: 'Alumni Abroad', href: '/alumni' },
+];
+
+const mainLinks = [
+  { name: 'Home', href: '/' },
+  { name: 'Club', href: '/club', dropdown: clubLinks },
+  { name: 'Teams & Players', href: '/players', dropdown: teamLinks },
+  { name: 'Fixtures & Results', href: '/fixtures' },
+  { name: 'News', href: '/news' },
+  { name: 'Media', href: '/media' },
+  { name: 'Contact', href: '/contact' },
+];
+---
+
+<header class="sticky top-0 z-50 bg-mfc-black border-b border-mfc-grey-800 transition-colors">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      
+      <!-- Left: Club Badge -->
+      <a href="/" class="flex items-center gap-3 shrink-0 py-2 focus-visible:outline-2 focus-visible:outline-mfc-gold" aria-label="Mahanaim FC Home">
+        <img
+          src="/images/badge/mahanaimfc.png"
+          alt="Mahanaim FC badge"
+          class="h-14 w-auto object-contain"
+          width="56"
+          height="56"
+          loading="eager"
+        />
+        <span class="sr-only">Mahanaim Football Club</span>
+      </a>
+
+      <!-- Center / Desktop Navigation (hidden on mobile) -->
+      <nav class="hidden lg:flex items-center gap-6 xl:gap-8 h-full" aria-label="Main Navigation">
+        {mainLinks.map((item) => {
+          const isDropdown = Boolean(item.dropdown && item.dropdown.length > 0);
+          const isActive = item.href === '/' 
+            ? currentPath === '/' 
+            : currentPath.startsWith(item.href);
+
+          if (!isDropdown) {
+            return (
+              <a
+                href={item.href}
+                class:list={[
+                  'font-display uppercase text-sm font-bold tracking-wider transition-colors py-7',
+                  'hover:text-mfc-gold hover:underline decoration-mfc-gold decoration-2 underline-offset-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mfc-gold',
+                  isActive 
+                    ? 'text-mfc-gold underline decoration-mfc-gold decoration-2 underline-offset-8' 
+                    : 'text-mfc-white',
+                ]}
+                aria-current={isActive ? 'page' : undefined}
+              >
+                {item.name}
+              </a>
+            );
+          }
+
+          return (
+            <div class="relative group h-full flex items-center">
+              <a
+                href={item.href}
+                class:list={[
+                  'inline-flex items-center gap-1.5 font-display uppercase text-sm font-bold tracking-wider transition-colors py-7',
+                  'hover:text-mfc-gold hover:underline decoration-mfc-gold decoration-2 underline-offset-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mfc-gold',
+                  isActive 
+                    ? 'text-mfc-gold underline decoration-mfc-gold decoration-2 underline-offset-8' 
+                    : 'text-mfc-white',
+                ]}
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span>{item.name}</span>
+                <svg
+                  class="w-3.5 h-3.5 transition-transform duration-200 group-hover:rotate-180 text-mfc-grey-300 group-hover:text-mfc-gold"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+                </svg>
+              </a>
+
+              <!-- Dropdown submenu (appears on hover) -->
+              <div class="absolute left-0 top-full pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 z-50">
+                <ul
+                  class="bg-mfc-near-black border border-mfc-grey-800 shadow-2xl py-2 min-w-[250px] list-none m-0"
+                  role="menu"
+                  aria-label={`${item.name} submenu`}
+                >
+                  {item.dropdown!.map((subItem) => {
+                    const isSubActive = currentPath === subItem.href;
+                    return (
+                      <li role="none">
+                        <a
+                          href={subItem.href}
+                          role="menuitem"
+                          class:list={[
+                            'block px-5 py-2.5 font-display uppercase text-xs font-bold tracking-wider transition-colors',
+                            'hover:text-mfc-gold hover:bg-mfc-black/60 focus-visible:bg-mfc-black/80 focus-visible:text-mfc-gold focus-visible:outline-none',
+                            isSubActive ? 'text-mfc-gold bg-mfc-black/40' : 'text-mfc-white',
+                          ]}
+                          aria-current={isSubActive ? 'page' : undefined}
+                        >
+                          {subItem.name}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          );
+        })}
+      </nav>
+
+      <!-- Right: Gold CTA & Mobile Hamburger -->
+      <div class="flex items-center gap-4">
+        <!-- Trial CTA (Desktop & Tablet) -->
+        <a href="/join" class="btn-gold hidden sm:inline-flex text-xs md:text-sm tracking-wider">
+          Apply for a Trial
+        </a>
+
+        <!-- Hamburger Button (Mobile) -->
+        <button
+          type="button"
+          id="mobile-menu-btn"
+          class="lg:hidden inline-flex items-center justify-center p-2.5 text-mfc-white hover:text-mfc-gold hover:bg-mfc-near-black border border-mfc-grey-800 focus:outline-none focus:ring-2 focus:ring-mfc-gold transition-colors"
+          aria-label="Open main menu"
+          aria-expanded="false"
+          aria-controls="mobile-offcanvas-menu"
+        >
+          <span class="sr-only">Open main menu</span>
+          <!-- Hamburger icon -->
+          <svg
+            id="hamburger-icon"
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <!-- Close icon (hidden initially) -->
+          <svg
+            id="close-icon"
+            class="w-6 h-6 hidden"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mobile Off-Canvas Backdrop -->
+  <div
+    id="mobile-menu-backdrop"
+    class="fixed inset-0 bg-black/75 backdrop-blur-xs z-40 hidden opacity-0 transition-opacity duration-300 lg:hidden"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Mobile Off-Canvas Menu Panel -->
+  <aside
+    id="mobile-offcanvas-menu"
+    class="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-mfc-black border-l border-mfc-grey-800 z-50 flex flex-col justify-between overflow-y-auto transform translate-x-full transition-transform duration-300 ease-in-out lg:hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Mobile Navigation"
+    tabindex="-1"
+  >
+    <!-- Drawer Header -->
+    <div class="p-6 border-b border-mfc-grey-800 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2" aria-label="Mahanaim FC Home">
+        <img
+          src="/images/badge/mahanaimfc.png"
+          alt="Mahanaim FC badge"
+          class="h-10 w-auto object-contain"
+          width="40"
+          height="40"
+        />
+        <span class="font-display font-bold uppercase text-base tracking-wider text-mfc-white">
+          Mahanaim FC
+        </span>
+      </a>
+      <button
+        type="button"
+        id="mobile-drawer-close"
+        class="p-2 text-mfc-grey-300 hover:text-mfc-gold transition-colors focus:outline-none focus:ring-2 focus:ring-mfc-gold"
+        aria-label="Close navigation menu"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Drawer Navigation Content -->
+    <nav class="flex-1 px-6 py-6 overflow-y-auto" aria-label="Mobile Menu Links">
+      <ul class="space-y-3 list-none p-0 m-0">
+        {mainLinks.map((item) => {
+          const isDropdown = Boolean(item.dropdown && item.dropdown.length > 0);
+          const isActive = item.href === '/' 
+            ? currentPath === '/' 
+            : currentPath.startsWith(item.href);
+
+          if (!isDropdown) {
+            return (
+              <li>
+                <a
+                  href={item.href}
+                  class:list={[
+                    'block py-2 font-display uppercase text-base font-bold tracking-wider transition-colors',
+                    'hover:text-mfc-gold border-b border-mfc-grey-800/50 pb-3',
+                    isActive ? 'text-mfc-gold' : 'text-mfc-white',
+                  ]}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {item.name}
+                </a>
+              </li>
+            );
+          }
+
+          return (
+            <li class="border-b border-mfc-grey-800/50 pb-3">
+              <details class="group/mobile">
+                <summary class="flex items-center justify-between py-2 cursor-pointer list-none text-mfc-white hover:text-mfc-gold font-display uppercase text-base font-bold tracking-wider transition-colors focus:outline-none">
+                  <span class={isActive ? 'text-mfc-gold' : 'text-mfc-white'}>{item.name}</span>
+                  <svg
+                    class="w-4 h-4 text-mfc-grey-300 transition-transform duration-200 group-open/mobile:rotate-180 group-open/mobile:text-mfc-gold"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </summary>
+                <ul class="mt-2 ml-3 pl-3 border-l-2 border-mfc-grey-800 space-y-2 list-none py-1">
+                  {item.dropdown!.map((subItem) => {
+                    const isSubActive = currentPath === subItem.href;
+                    return (
+                      <li>
+                        <a
+                          href={subItem.href}
+                          class:list={[
+                            'block py-1.5 font-display uppercase text-sm font-semibold tracking-wider transition-colors',
+                            'hover:text-mfc-gold',
+                            isSubActive ? 'text-mfc-gold' : 'text-mfc-grey-300',
+                          ]}
+                          aria-current={isSubActive ? 'page' : undefined}
+                        >
+                          {subItem.name}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </details>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    <!-- Drawer Footer with Trial CTA -->
+    <div class="p-6 border-t border-mfc-grey-800 bg-mfc-near-black">
+      <a
+        href="/join"
+        class="btn-gold w-full justify-center text-center text-sm tracking-wider py-3 shadow-md"
+      >
+        Apply for a Trial
+      </a>
+      <p class="mt-4 text-center font-body text-xs text-mfc-grey-600">
+        Mahanaim FC &bull; Abuja, Nigeria
+      </p>
+    </div>
+  </aside>
+</header>
+
+<script>
+  function setupMobileMenu() {
+    const btn = document.getElementById('mobile-menu-btn');
+    const closeBtn = document.getElementById('mobile-drawer-close');
+    const menu = document.getElementById('mobile-offcanvas-menu');
+    const backdrop = document.getElementById('mobile-menu-backdrop');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const closeIcon = document.getElementById('close-icon');
+
+    if (!btn || !menu || !backdrop) return;
+
+    function openMenu() {
+      btn?.setAttribute('aria-expanded', 'true');
+      menu?.classList.remove('translate-x-full');
+      backdrop?.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        backdrop?.classList.add('opacity-100');
+      });
+      hamburgerIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      menu?.focus();
+    }
+
+    function closeMenu() {
+      btn?.setAttribute('aria-expanded', 'false');
+      menu?.classList.add('translate-x-full');
+      backdrop?.classList.remove('opacity-100');
+      hamburgerIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        if (btn?.getAttribute('aria-expanded') === 'false') {
+          backdrop?.classList.add('hidden');
+        }
+      }, 300);
+    }
+
+    btn.addEventListener('click', () => {
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    closeBtn?.addEventListener('click', closeMenu);
+    backdrop.addEventListener('click', closeMenu);
+
+    // Close on Escape key press
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+        btn.focus();
+      }
+    });
+
+    // Close menu when navigating via mobile links
+    const mobileLinks = menu.querySelectorAll('a');
+    mobileLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+  }
+
+  // Run on initial load and Astro page transitions
+  setupMobileMenu();
+  document.addEventListener('astro:page-load', setupMobileMenu);
+</script>

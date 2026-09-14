@@ -1,0 +1,35 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+const values = [
+  { title: 'Our values', body: 'Dedicated to enriching the world by developing athletes who embody a strong commitment to ethics, diversity, inclusiveness, consistency and dignity — inspiring them to live a life of value and purpose.' },
+  { title: 'Our mission', body: 'The glory of African football has faded due to systemic corruption, infrastructural deficits, information barriers and a reliance on shortcuts. Our collective principle is to rebuild the sport\'s foundations to revive past successes and ensure a sustainable future.' },
+  { title: 'Our vision', body: 'To cultivate goal-oriented athletes who strive for excellence, refuse to accept anything less, and can confidently hold their own among the greatest players — consistently showcasing their skills and talent.' },
+];
+---
+
+<BaseLayout title="Mission, Vision & Values" description="The foundational principles guiding Mahanaim FC — values, mission and vision.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">Mission, Vision & Values</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">Foundational principles guiding our actions.</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {values.map((v) => (
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
+          <h2 class="font-display uppercase text-xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-3">{v.title}</h2>
+          <p class="font-body text-sm text-mfc-grey-800 leading-relaxed">{v.body}</p>
+        </div>
+      ))}
+    </div>
+    <p class="font-body text-xs text-mfc-grey-600 mt-6">As published by the club — copy lightly edited for clarity, pending final approval.</p>
+  </div>
+</BaseLayout>

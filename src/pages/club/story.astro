@@ -1,0 +1,40 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="Our Story" description="Mahanaim FC history — launched 2018 in Abuja, born from a passion to revitalise African football.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">Our Story</h1>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-3xl font-body text-mfc-grey-800 leading-relaxed">
+    <p>
+      Mahanaim Football Club is a professional association football team based in Abuja, Nigeria's capital city.
+      Officially launched in <strong>2018</strong> (as stated by the club), it was born out of a passion to revitalise
+      African football — rekindling the continent's footballing glory by returning to the fundamentals that once made
+      African players renowned for their quality, longevity and ambition.
+    </p>
+    <p class="mt-5">
+      The club seeks to rebuild, revive and reawaken the consciousness of African football stakeholders — players,
+      executives, administrators, agents and sports journalists — to restore the fire that once drove the success of
+      African football legends.
+    </p>
+    <div class="bg-mfc-off-white border-l-4 border-mfc-gold p-5 mt-8">
+      <p class="font-body text-sm text-mfc-grey-800">
+        <strong>What we believe:</strong> in a globalised world, unity and cooperation drive progress. We foster
+        collaboration and interdependence among stakeholders — we are stronger together, not alone.
+      </p>
+    </div>
+    <div class="mt-10">
+      <a href="/join" class="btn-gold">Apply for a Trial</a>
+      <a href="/club/leadership" class="inline-flex items-center px-6 py-3 ml-3 border-2 border-mfc-grey-800 text-mfc-grey-800 font-display uppercase text-sm font-bold tracking-wider hover:bg-mfc-grey-100 transition-colors">Leadership & Staff</a>
+    </div>
+  </div>
+</BaseLayout>

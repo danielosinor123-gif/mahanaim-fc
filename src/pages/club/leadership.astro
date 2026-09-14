@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+const staff = (await getCollection('staff')).sort((a, b) => a.data.order - b.data.order);
+const board = staff.filter((s) => s.data.department === 'Management');
+const others = staff.filter((s) => s.data.department !== 'Management');
+---
+
+<BaseLayout title="Leadership & Staff" description="Mahanaim FC management board and staff, as published by the club.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">Leadership & Staff</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">Management board and staff as published on the club's official site — names and titles pending final confirmation.</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section aria-labelledby="board">
+      <h2 id="board" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">Management board</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {board.map((s) => (
+          <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
+            <h3 class="font-display uppercase text-lg font-bold text-mfc-grey-800">{s.data.name}</h3>
+            <p class="font-body text-sm text-mfc-grey-600 mt-1">{s.data.role}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {others.length > 0 && (
+      <section class="mt-12" aria-labelledby="staff-list">
+        <h2 id="staff-list" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">Staff & support</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full font-body text-sm border-collapse">
+            <thead>
+              <tr class="bg-mfc-off-white text-left"><th scope="col" class="py-3 px-4 font-semibold">Name</th><th scope="col" class="py-3 px-4 font-semibold">Role</th><th scope="col" class="py-3 px-4 font-semibold">Department</th></tr>
+            </thead>
+            <tbody>
+              {others.map((s) => (
+                <tr class="border-b border-mfc-grey-100">
+                  <td class="py-3 px-4">{s.data.name}</td>
+                  <td class="py-3 px-4">{s.data.role}</td>
+                  <td class="py-3 px-4 text-mfc-grey-600">{s.data.department}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>

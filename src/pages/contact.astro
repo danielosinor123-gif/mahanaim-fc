@@ -1,0 +1,132 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
+
+const categories = ['Trials', 'Fixtures', 'Scouting', 'Sponsorship', 'Media', 'General'];
+---
+
+<BaseLayout title="Contact" description="Contact Mahanaim FC — Abuja office, phone, WhatsApp, email and enquiry form.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">Contact</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">Reach Mahanaim FC by phone, WhatsApp, email or the enquiry form below. We aim to respond within a few working days.</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <aside class="lg:col-span-1 space-y-6">
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
+          <h2 class="font-display uppercase font-bold text-lg text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-4">Club address</h2>
+          <address class="not-italic font-body text-sm text-mfc-grey-800 leading-relaxed">
+            Metta Plaza, Suite FF7,<br />Plot 100 Arab Road,<br />Abuja 901002, FCT, Nigeria
+          </address>
+          <a href="https://www.google.com/maps/search/?api=1&query=Plot+100+Arab+Road+Abuja" target="_blank" rel="noopener noreferrer" class="font-body text-sm text-mfc-gold-hover font-semibold mt-3 inline-block">Open in Google Maps</a>
+        </div>
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
+          <h2 class="font-display uppercase font-bold text-lg text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-4">Direct channels</h2>
+          <ul class="list-none p-0 m-0 space-y-3 font-body text-sm">
+            <li><a href="tel:+2349074700128" class="text-mfc-grey-800 hover:text-mfc-gold-hover font-semibold">+234 907 470 0128 (call)</a></li>
+            <li><a href="https://wa.me/2349074700128?text=Hello%20Mahanaim%20FC%2C%20I%20would%20like%20to%20enquire%20about..." target="_blank" rel="noopener noreferrer" class="text-mfc-grey-800 hover:text-mfc-gold-hover font-semibold">WhatsApp chat</a></li>
+            <li><a href="mailto:mahanaimfc@hotmail.com" class="text-mfc-grey-800 hover:text-mfc-gold-hover font-semibold">mahanaimfc@hotmail.com</a></li>
+          </ul>
+        </div>
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
+          <h2 class="font-display uppercase font-bold text-lg text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-4">Football location</h2>
+          <p class="font-body text-sm text-mfc-grey-800">Mahanaim Arena, Burundi Street, Wuse Zone 5, Abuja — as referenced by the club; confirm before travelling.</p>
+        </div>
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
+          <h2 class="font-display uppercase font-bold text-lg text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-4">Social</h2>
+          <ul class="list-none p-0 m-0 space-y-2 font-body text-sm">
+            <li><a href="https://www.instagram.com/mahanaimfc2022/" target="_blank" rel="noopener noreferrer" class="text-mfc-grey-800 hover:text-mfc-gold-hover">Instagram — @mahanaimfc2022</a></li>
+            <li><a href="https://www.facebook.com/profile.php?id=100083995110646" target="_blank" rel="noopener noreferrer" class="text-mfc-grey-800 hover:text-mfc-gold-hover">Facebook — Mahanaim FC</a></li>
+            <li><a href="https://twitter.com/mahanaimFC" target="_blank" rel="noopener noreferrer" class="text-mfc-grey-800 hover:text-mfc-gold-hover">X — @mahanaimFC</a></li>
+            <li><a href="https://youtube.com/@mahanaimfcmedia844" target="_blank" rel="noopener noreferrer" class="text-mfc-grey-800 hover:text-mfc-gold-hover">YouTube — @mahanaimfcmedia844</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <div class="lg:col-span-2">
+        <form id="contact-form" novalidate class="bg-white border border-mfc-grey-100 p-6 md:p-8">
+          <h2 class="font-display uppercase text-xl font-bold text-mfc-grey-800 mb-6">Send an enquiry</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label for="c-name" class="block font-body text-sm font-semibold mb-1.5">Name <span class="text-red-700">*</span></label>
+              <input id="c-name" name="name" type="text" required class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm focus:outline-none focus:ring-2 focus:ring-mfc-gold" />
+              <p class="err font-body text-xs text-red-700 mt-1 hidden">Enter your name.</p>
+            </div>
+            <div>
+              <label for="c-cat" class="block font-body text-sm font-semibold mb-1.5">Enquiry category <span class="text-red-700">*</span></label>
+              <select id="c-cat" name="category" required class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm focus:outline-none focus:ring-2 focus:ring-mfc-gold">
+                <option value="">Select…</option>
+                {categories.map((c) => <option>{c}</option>)}
+              </select>
+              <p class="err font-body text-xs text-red-700 mt-1 hidden">Choose a category.</p>
+            </div>
+            <div>
+              <label for="c-contact" class="block font-body text-sm font-semibold mb-1.5">Phone or email <span class="text-red-700">*</span></label>
+              <input id="c-contact" name="contact" type="text" required class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm focus:outline-none focus:ring-2 focus:ring-mfc-gold" />
+              <p class="err font-body text-xs text-red-700 mt-1 hidden">Enter a contact method.</p>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="c-msg" class="block font-body text-sm font-semibold mb-1.5">Message <span class="text-red-700">*</span></label>
+              <textarea id="c-msg" name="message" rows="5" required class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm focus:outline-none focus:ring-2 focus:ring-mfc-gold"></textarea>
+              <p class="err font-body text-xs text-red-700 mt-1 hidden">Enter your message.</p>
+            </div>
+          </div>
+          <div id="c-note" class="hidden mt-5 px-4 py-3 font-body text-sm" role="status" aria-live="polite"></div>
+          <button type="submit" class="btn-gold mt-6">Send enquiry</button>
+          <p class="font-body text-xs text-mfc-grey-600 mt-3">Your enquiry opens as a structured email to the club. We aim to respond within 3 working days.</p>
+        </form>
+        <div id="c-success" class="hidden bg-white border-2 border-mfc-gold p-6 md:p-8 mt-6" role="status">
+          <h2 class="font-display uppercase text-xl font-bold text-mfc-grey-800">Enquiry ready</h2>
+          <p class="font-body text-sm text-mfc-grey-800 mt-3">Your email app has opened with your enquiry — press send to deliver it. If it did not open, email <a href="mailto:mahanaimfc@hotmail.com" class="text-mfc-gold-hover font-semibold">mahanaimfc@hotmail.com</a> directly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <WhatsAppButton />
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const success = document.getElementById('c-success');
+  const note = document.getElementById('c-note');
+  if (form) {
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      let ok = true;
+      let first: HTMLElement | null = null;
+      form.querySelectorAll<HTMLElement>('[required]').forEach((el) => {
+        const input = el as HTMLInputElement;
+        const bad = !input.value.trim();
+        const err = input.closest('div')?.querySelector('.err') as HTMLElement | null;
+        if (err) err.classList.toggle('hidden', !bad);
+        input.setAttribute('aria-invalid', bad ? 'true' : 'false');
+        if (bad) { ok = false; first = first ?? input; }
+      });
+      if (!ok) {
+        if (note) {
+          note.textContent = 'Please complete the highlighted fields.';
+          note.className = 'mt-5 px-4 py-3 font-body text-sm bg-red-50 border border-red-200 text-red-800';
+        }
+        (first as HTMLElement | null)?.focus();
+        return;
+      }
+      const data: Record<string, string> = {};
+      new FormData(form).forEach((v, k) => { data[k] = String(v); });
+      const to = 'mahanaimfc@hotmail.com';
+      const subject = encodeURIComponent(`[Mahanaim FC] ${data.category ?? 'Enquiry'} — ${data.name ?? ''}`);
+      const body = encodeURIComponent(Object.entries(data).map(([k, v]) => `${k}: ${v}`).join('\n'));
+      if (success) success.classList.remove('hidden');
+      form.reset();
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    });
+  }
+</script>

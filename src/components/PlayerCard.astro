@@ -1,0 +1,62 @@
+---
+interface Props {
+  name: string;
+  position: string;
+  positionDetail?: string;
+  squadNumber?: number;
+  photo: string;
+  team?: string;
+  slug: string;
+}
+
+const {
+  name,
+  position,
+  positionDetail,
+  squadNumber,
+  photo,
+  team,
+  slug,
+} = Astro.props;
+---
+
+<a
+  href={`/players/${slug}`}
+  class="group block bg-mfc-near-black border border-mfc-grey-800/30 overflow-hidden transition-transform duration-200 hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-mfc-gold"
+  aria-label={`View profile for ${name}, ${position}${squadNumber !== undefined ? ` #${squadNumber}` : ''}`}
+>
+  <!-- Player photo top section (3:4 aspect ratio) -->
+  <div class="relative aspect-[3/4] w-full overflow-hidden bg-mfc-black">
+    <img
+      src={photo}
+      alt={name}
+      loading="lazy"
+      class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+    />
+
+    <!-- Squad number in Barlow Condensed font (top-left) -->
+    {squadNumber !== undefined && (
+      <span
+        class="absolute top-2 left-3 font-display text-4xl font-bold text-mfc-gold leading-none drop-shadow-md select-none"
+        aria-hidden="true"
+      >
+        {squadNumber}
+      </span>
+    )}
+
+    <!-- Gold position badge (top-right) -->
+    <span class="position-badge absolute top-3 right-3 shadow-sm">
+      {position}
+    </span>
+  </div>
+
+  <!-- Name and position detail bottom section -->
+  <div class="p-4">
+    <h3 class="font-display font-bold text-lg text-mfc-white uppercase tracking-tight leading-snug group-hover:text-mfc-gold transition-colors">
+      {name}
+    </h3>
+    <p class="font-body text-sm text-mfc-grey-300 mt-1">
+      {positionDetail || position}
+    </p>
+  </div>
+</a>

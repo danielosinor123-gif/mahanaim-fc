@@ -1,0 +1,50 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="Governance and Verified Affiliations" description="Mahanaim FC ownership, finance and affiliation status — verified facts only.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">Governance & Affiliations</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">Ownership, finance and affiliation status — stated as published by the club, without exaggeration.</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-3xl">
+    <section aria-labelledby="ownership">
+      <h2 id="ownership" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">Ownership & finance</h2>
+      <p class="font-body text-mfc-grey-800 leading-relaxed">
+        Mahanaim Football Club, as incorporated, is privately owned by a consortium of individuals whose collective
+        ownership approach is intended to ensure financial stability and a unified vision for the club's success.
+        As published, financing comes from a combination of:
+      </p>
+      <ul class="list-disc pl-6 font-body text-mfc-grey-800 mt-4 space-y-1.5">
+        <li>Personal contributions</li>
+        <li>Donations</li>
+        <li>Interest-free loans</li>
+        <li>Grants</li>
+        <li>Revenue generated from player sales</li>
+        <li>Sales of club souvenirs and merchandise</li>
+        <li>Naming of ground / standing rights</li>
+        <li>Other club-related investment</li>
+      </ul>
+    </section>
+
+    <section class="mt-12" aria-labelledby="affiliations">
+      <h2 id="affiliations" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">Affiliations</h2>
+      <p class="font-body text-mfc-grey-800 leading-relaxed">
+        The club's previous site displayed FIFA, CAF and NFF references.
+        <strong>The exact relationship — regulation, registration, association or competition — has not been verified</strong>
+        and is pending confirmation by the club. No membership or formal affiliation is claimed on this site.
+      </p>
+      <div class="bg-mfc-off-white border-l-4 border-mfc-gold p-5 mt-5">
+        <p class="font-body text-sm text-mfc-grey-800">Club staff: confirm the precise status of each football-governing-body relationship before it is stated publicly.</p>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

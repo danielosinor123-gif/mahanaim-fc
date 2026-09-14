@@ -1,0 +1,118 @@
+---
+interface Props {
+  title: string;
+  date: Date | string;
+  category: string;
+  leadImage: string;
+  leadImageAlt: string;
+  summary: string;
+  slug: string;
+  featured?: boolean;
+}
+
+const {
+  title,
+  date,
+  category,
+  leadImage,
+  leadImageAlt,
+  summary,
+  slug,
+  featured = false,
+} = Astro.props;
+
+const dateObj = typeof date === 'string' ? new Date(date) : date;
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
+}).format(dateObj);
+
+const isoDate = !isNaN(dateObj.getTime()) ? dateObj.toISOString() : undefined;
+---
+
+<a
+  href={`/news/${slug}`}
+  class:list={[
+    'group block bg-mfc-white shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-mfc-grey-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-mfc-gold',
+    featured ? 'md:grid md:grid-cols-12 md:items-stretch' : 'flex flex-col h-full',
+  ]}
+  aria-label={`Read article: ${title}`}
+>
+  <!-- Image top section (16:9 aspect ratio) -->
+  <div
+    class:list={[
+      'relative overflow-hidden bg-mfc-grey-100',
+      featured ? 'md:col-span-7 aspect-[16/9]' : 'aspect-[16/9] w-full',
+    ]}
+  >
+    <img
+      src={leadImage}
+      alt={leadImageAlt}
+      loading="lazy"
+      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+    />
+    <!-- Category badge overlaid on image bottom-left -->
+    <span class="absolute bottom-3 left-3 bg-mfc-gold text-mfc-black px-3 py-1 font-display text-xs uppercase font-semibold tracking-wider shadow-sm z-10">
+      {category}
+    </span>
+  </div>
+
+  <!-- Content section -->
+  <div
+    class:list={[
+      'flex flex-col justify-between',
+      featured ? 'md:col-span-5 p-6 md:p-8' : 'p-5 flex-1',
+    ]}
+  >
+    <div>
+      <!-- Date below image -->
+      <time
+        datetime={isoDate}
+        class="font-body text-sm text-mfc-grey-600 block mb-2"
+      >
+        {formattedDate}
+      </time>
+
+      <!-- Title -->
+      <h3
+        class:list={[
+          'font-display uppercase text-mfc-grey-800 group-hover:text-mfc-gold-hover transition-colors leading-tight',
+          featured
+            ? 'text-2xl md:text-3xl font-bold line-clamp-3'
+            : 'text-xl font-bold line-clamp-2',
+        ]}
+      >
+        {title}
+      </h3>
+
+      <!-- Summary (only if featured=true) -->
+      {featured && summary && (
+        <p class="font-body text-sm text-mfc-grey-600 line-clamp-3 mt-3 leading-relaxed">
+          {summary}
+        </p>
+      )}
+    </div>
+
+    <!-- Read More link at bottom -->
+    <div class="mt-4 pt-2">
+      <span class="inline-flex items-center gap-1.5 font-display text-sm font-bold uppercase text-mfc-gold group-hover:gap-2.5 transition-all">
+        Read More
+        <svg
+          class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </span>
+    </div>
+  </div>
+</a>

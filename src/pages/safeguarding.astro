@@ -1,0 +1,50 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="Safeguarding" description="Mahanaim FC safeguarding — trial safety, reporting a concern, photography consent.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">Safeguarding</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">Trial safety, reporting concerns and consent — official policy details pending club approval.</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-3xl">
+    <div class="bg-red-50 border-l-4 border-red-600 p-5 mb-8">
+      <p class="font-body text-sm text-red-900"><strong>Official policy pending.</strong> The club must supply: safeguarding officer name and contact, policy document, reporting procedure and emergency steps. Nothing on this page invents those details.</p>
+    </div>
+
+    <section class="font-body text-mfc-grey-800 leading-relaxed space-y-6">
+      <div>
+        <h2 class="font-display uppercase text-xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-3">How to report a concern</h2>
+        <ol class="list-decimal pl-6 space-y-2">
+          <li>If someone is in immediate danger, contact local emergency services first.</li>
+          <li>Contact the club safeguarding lead: <strong>[CONTENT REQUIRED — name, phone, email]</strong>.</li>
+          <li>Or email <a href="mailto:mahanaimfc@hotmail.com" class="text-mfc-gold-hover font-semibold">mahanaimfc@hotmail.com</a> with subject "Safeguarding". Reports are treated as sensitive and shared only on a need-to-know basis.</li>
+        </ol>
+      </div>
+      <div>
+        <h2 class="font-display uppercase text-xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-3">Trial & recruitment safety</h2>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>Players under 18 must attend with a parent/guardian or written guardian consent.</li>
+          <li><strong>No fees are confirmed</strong> — never pay cash without a written receipt and terms.</li>
+          <li>Training venues and supervision ratios: [CONTENT REQUIRED].</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="font-display uppercase text-xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-3">Photography & consent</h2>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>We photograph and film players only with consent; under-18s require signed parent/guardian consent.</li>
+          <li>Consent can be withdrawn at any time via the <a href="/contact" class="text-mfc-gold-hover font-semibold">contact page</a>.</li>
+          <li>Consent form: [CONTENT REQUIRED — to be supplied by the club].</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

@@ -1,0 +1,42 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="Alumni Abroad" description="Reported Mahanaim FC player pathways and alumni abroad — labelled with source and approval status.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">Alumni Abroad</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">Player pathways as published by the club. Each story is labelled with its status — no guaranteed outcomes are implied.</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
+        <p class="font-display text-xs uppercase font-bold text-mfc-grey-600 mb-2">Reported — club approval required</p>
+        <h2 class="font-display uppercase text-xl font-bold text-mfc-grey-800">Marcus Haruna & Yahi Guy Mohammed</h2>
+        <p class="font-body text-sm text-mfc-grey-800 mt-3"><strong>Reported destination:</strong> FK Sarajevo</p>
+        <p class="font-body text-sm text-mfc-grey-600 mt-2">Mahanaim's exact role (development period, trial facilitation, transfer type), dates and contract details are unconfirmed and must be approved by the club before being stated as fact.</p>
+      </div>
+      <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
+        <p class="font-display text-xs uppercase font-bold text-mfc-grey-600 mb-2">Reported — club approval required</p>
+        <h2 class="font-display uppercase text-xl font-bold text-mfc-grey-800">Edward Jassy</h2>
+        <p class="font-body text-sm text-mfc-grey-800 mt-3"><strong>Reported pathway:</strong> Al Masi FC → SK Sigma Olomouc</p>
+        <p class="font-body text-sm text-mfc-grey-600 mt-2">Sequence and dates require staff confirmation. Treat as a reported pathway, not a verified transfer record.</p>
+      </div>
+    </div>
+    <div class="bg-mfc-off-white border-l-4 border-mfc-gold p-5 mt-8">
+      <p class="font-body text-sm text-mfc-grey-800">
+        <strong>Further alumni:</strong> the club's previous site listed additional players with transfer histories (2017–2026).
+        These are withheld pending permission to name players and clubs, and date verification. Players shown here are
+        examples of the club's published development pathway — not a promise of professional contracts for current players.
+      </p>
+    </div>
+    <p class="mt-8"><a href="/join" class="btn-gold">Apply for a Trial</a></p>
+  </div>
+</BaseLayout>

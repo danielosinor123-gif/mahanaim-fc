@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import PlayerCard from '@/components/PlayerCard.astro';
+
+const players = (await getCollection('players', ({ data }) => data.team === 'First Team' && data.active))
+  .sort((a, b) => (a.data.squadNumber ?? 99) - (b.data.squadNumber ?? 99));
+---
+
+<BaseLayout title="First Team" description="The Mahanaim FC first-team squad — players, positions and shirt numbers as published by the club.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">First Team</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">{players.length} players as published on the club's official squad page, pending final confirmation.</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+      {players.map((p) => (
+        <PlayerCard name={p.data.name} position={p.data.position} positionDetail={p.data.positionDetail} squadNumber={p.data.squadNumber} photo={p.data.photo} slug={p.id} />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

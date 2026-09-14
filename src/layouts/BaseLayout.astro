@@ -1,0 +1,77 @@
+---
+import '@/styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = 'Mahanaim Football Club — Professional football development in Abuja, Nigeria. Developing players for personal excellence and team success. Est. 2018.',
+  ogImage = '/images/badge/mahanaim-og.png',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} | Mahanaim FC</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} | Mahanaim FC`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content="Mahanaim FC" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} | Mahanaim FC`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SportsTeam",
+      "name": "Mahanaim Football Club",
+      "alternateName": "Mahanaim FC",
+      "sport": "Soccer",
+      "foundingDate": "2018",
+      "url": "https://mahanaimfc.com",
+      "logo": "https://mahanaimfc.com/images/badge/mahanaimfc.png",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Abuja",
+        "addressRegion": "FCT",
+        "addressCountry": "NG"
+      },
+      "sameAs": [
+        "https://youtube.com/@mahanaimfcmedia844",
+        "https://www.facebook.com/profile.php?id=100083995110646",
+        "https://www.instagram.com/mahanaimfc2022/",
+        "https://twitter.com/mahanaimFC"
+      ]
+    })} />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <slot name="ticker" />
+    <slot name="header" />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <slot name="footer" />
+  </body>
+</html>

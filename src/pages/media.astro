@@ -1,0 +1,46 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+const channels = [
+  { name: 'Instagram', handle: '@mahanaimfc2022', href: 'https://www.instagram.com/mahanaimfc2022/' },
+  { name: 'Facebook', handle: 'Mahanaim FC', href: 'https://www.facebook.com/profile.php?id=100083995110646' },
+  { name: 'X (Twitter)', handle: '@mahanaimFC', href: 'https://twitter.com/mahanaimFC' },
+  { name: 'YouTube', handle: '@mahanaimfcmedia844', href: 'https://youtube.com/@mahanaimfcmedia844' },
+];
+---
+
+<BaseLayout title="Media" description="Mahanaim FC media — photos, videos and official social channels.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">Media</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">Photos, videos and official channels. Highlights, interviews and training clips live on our socials.</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+      {[1, 2, 3, 4].map((i) => (
+        <img src={`/images/gallery-g${i}.jpg`} alt={`Mahanaim FC — club photo ${i}`} width="800" height="600" loading="lazy" class="w-full h-40 md:h-48 object-cover rounded" />
+      ))}
+    </div>
+
+    <section aria-labelledby="channels">
+      <h2 id="channels" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">Official channels</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {channels.map((c) => (
+          <a href={c.href} target="_blank" rel="noopener noreferrer" class="group block bg-mfc-off-white border border-mfc-grey-100 p-6 hover:border-mfc-gold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-mfc-gold">
+            <h3 class="font-display uppercase text-lg font-bold text-mfc-grey-800 group-hover:text-mfc-gold-hover transition-colors">{c.name}</h3>
+            <p class="font-body text-sm text-mfc-grey-600 mt-1">{c.handle}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <p class="font-body text-xs text-mfc-grey-600 mt-6">Images of under-18 players appear only with signed parent/guardian consent — see our <a href="/safeguarding" class="text-mfc-gold-hover font-semibold">safeguarding notice</a>.</p>
+  </div>
+</BaseLayout>

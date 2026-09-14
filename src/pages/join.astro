@@ -1,0 +1,178 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
+---
+
+<BaseLayout title="Join Mahanaim" description="Apply for a Mahanaim FC trial — player development in Abuja, Nigeria. Submit your application online.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">Join Mahanaim</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">
+        Apply for a trial with Mahanaim FC. Complete the form below — submitting an application
+        <strong class="text-white">does not guarantee selection, an invitation or a contract</strong>.
+        We aim to respond within a few working days.
+      </p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <!-- Info column -->
+      <aside class="lg:col-span-1">
+        <h2 class="font-display uppercase text-xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-4">Before you apply</h2>
+        <ul class="list-none p-0 m-0 space-y-3 font-body text-sm text-mfc-grey-800">
+          <li class="bg-mfc-off-white border border-mfc-grey-100 px-4 py-3"><strong>Who can apply:</strong> committed footballers seeking disciplined development. Under-18s must apply with a parent/guardian.</li>
+          <li class="bg-mfc-off-white border border-mfc-grey-100 px-4 py-3"><strong>Process:</strong> application → assessment or trial → training and development → matches and exposure → progression opportunities.</li>
+          <li class="bg-mfc-off-white border border-mfc-grey-100 px-4 py-3"><strong>Location:</strong> Mahanaim Arena, Burundi Street, Wuse Zone 5, Abuja (as referenced by the club — confirm before travelling).</li>
+          <li class="bg-mfc-off-white border border-mfc-grey-100 px-4 py-3"><strong>What to bring:</strong> training kit, boots and shin guards if invited. We will contact you with specifics.</li>
+          <li class="bg-mfc-off-white border border-mfc-grey-100 px-4 py-3"><strong>Safeguarding:</strong> read our <a href="/safeguarding" class="text-mfc-gold-hover font-semibold">safeguarding notice</a>. We never ask for payment to apply.</li>
+        </ul>
+        <p class="font-body text-xs text-mfc-grey-600 mt-4">Trial windows are not currently published — apply anytime and we will confirm the next assessment date.</p>
+      </aside>
+
+      <!-- Application form -->
+      <div class="lg:col-span-2">
+        <form id="trial-form" novalidate class="bg-white border border-mfc-grey-100 p-6 md:p-8">
+          <h2 class="font-display uppercase text-xl font-bold text-mfc-grey-800 mb-6">Trial application</h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label for="f-name" class="block font-body text-sm font-semibold mb-1.5">Applicant name <span class="text-red-700">*</span></label>
+              <input id="f-name" name="name" type="text" required autocomplete="name" class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm focus:outline-none focus:ring-2 focus:ring-mfc-gold" />
+              <p class="err font-body text-xs text-red-700 mt-1 hidden">Enter the applicant's full name.</p>
+            </div>
+            <div>
+              <label for="f-dob" class="block font-body text-sm font-semibold mb-1.5">Date of birth <span class="font-normal text-mfc-grey-600">(or age group)</span> <span class="text-red-700">*</span></label>
+              <input id="f-dob" name="date_of_birth" type="text" required placeholder="e.g. 2009 or Under 16" class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm focus:outline-none focus:ring-2 focus:ring-mfc-gold" />
+              <p class="err font-body text-xs text-red-700 mt-1 hidden">Enter date of birth or age group.</p>
+            </div>
+            <div>
+              <label for="f-pos" class="block font-body text-sm font-semibold mb-1.5">Preferred position <span class="text-red-700">*</span></label>
+              <select id="f-pos" name="position" required class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm focus:outline-none focus:ring-2 focus:ring-mfc-gold">
+                <option value="">Select…</option>
+                <option>Goalkeeper</option><option>Defender</option><option>Midfielder</option><option>Forward</option>
+              </select>
+              <p class="err font-body text-xs text-red-700 mt-1 hidden">Choose a position.</p>
+            </div>
+            <div>
+              <label for="f-pos2" class="block font-body text-sm font-semibold mb-1.5">Secondary position</label>
+              <select id="f-pos2" name="secondary_position" class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm focus:outline-none focus:ring-2 focus:ring-mfc-gold">
+                <option value="">Select…</option>
+                <option>Goalkeeper</option><option>Defender</option><option>Midfielder</option><option>Forward</option>
+              </select>
+            </div>
+            <div>
+              <label for="f-loc" class="block font-body text-sm font-semibold mb-1.5">Current location <span class="text-red-700">*</span></label>
+              <input id="f-loc" name="location" type="text" required placeholder="e.g. Kubwa, Abuja" class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm focus:outline-none focus:ring-2 focus:ring-mfc-gold" />
+              <p class="err font-body text-xs text-red-700 mt-1 hidden">Enter your location.</p>
+            </div>
+            <div>
+              <label for="f-contact" class="block font-body text-sm font-semibold mb-1.5">Phone or email <span class="text-red-700">*</span></label>
+              <input id="f-contact" name="contact" type="text" required class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm focus:outline-none focus:ring-2 focus:ring-mfc-gold" />
+              <p class="err font-body text-xs text-red-700 mt-1 hidden">Enter a phone number or email address.</p>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="f-exp" class="block font-body text-sm font-semibold mb-1.5">Playing experience</label>
+              <textarea id="f-exp" name="experience" rows="3" placeholder="Current/previous club or school, years played, achievements" class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm focus:outline-none focus:ring-2 focus:ring-mfc-gold"></textarea>
+            </div>
+            <div>
+              <label for="f-guardian" class="block font-body text-sm font-semibold mb-1.5">Parent/guardian name <span class="font-normal text-mfc-grey-600">(under 18s)</span></label>
+              <input id="f-guardian" name="guardian_name" type="text" autocomplete="name" class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm focus:outline-none focus:ring-2 focus:ring-mfc-gold" />
+            </div>
+            <div>
+              <label for="f-guardian-contact" class="block font-body text-sm font-semibold mb-1.5">Parent/guardian contact <span class="font-normal text-mfc-grey-600">(under 18s)</span></label>
+              <input id="f-guardian-contact" name="guardian_contact" type="text" class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm focus:outline-none focus:ring-2 focus:ring-mfc-gold" />
+            </div>
+            <div class="sm:col-span-2">
+              <label for="f-video" class="block font-body text-sm font-semibold mb-1.5">Highlight video link <span class="font-normal text-mfc-grey-600">(optional)</span></label>
+              <input id="f-video" name="highlight_video" type="url" placeholder="YouTube or Drive link" class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm focus:outline-none focus:ring-2 focus:ring-mfc-gold" />
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <input id="f-consent" name="consent" type="checkbox" value="yes" required class="w-4 h-4 accent-[#D4A843]" />
+            <label for="f-consent" class="inline font-body text-sm text-mfc-grey-800 ml-2">I consent to Mahanaim FC processing this application and contacting me about trials. <span class="text-red-700">*</span></label>
+            <p class="err font-body text-xs text-red-700 mt-1 hidden">Consent is required to submit an application.</p>
+          </div>
+
+          <div id="form-note" class="hidden mt-5 px-4 py-3 font-body text-sm" role="status" aria-live="polite"></div>
+
+          <button type="submit" class="btn-gold mt-6">Submit application</button>
+          <p class="font-body text-xs text-mfc-grey-600 mt-3">Your application opens as a structured email to the club and is confirmed with a reference number. Do not send government ID documents or medical records with this form.</p>
+        </form>
+
+        <!-- Confirmation panel -->
+        <div id="form-success" class="hidden bg-white border-2 border-mfc-gold p-6 md:p-8" role="status">
+          <h2 class="font-display uppercase text-xl font-bold text-mfc-grey-800">Application received</h2>
+          <p class="font-body text-sm text-mfc-grey-800 mt-3">Thank you — your application is ready to send. Your email app has opened with a structured message; press send to deliver it to the club.</p>
+          <p class="font-body text-sm text-mfc-grey-800 mt-3">Your reference number:</p>
+          <p id="ref-number" class="font-display text-3xl font-bold text-mfc-gold mt-1"></p>
+          <p class="font-body text-xs text-mfc-grey-600 mt-4">Keep this reference for follow-up. Submitting an application does not guarantee selection or a contract. If your email app did not open, copy your answers and email them to <a href="mailto:mahanaimfc@hotmail.com" class="text-mfc-gold-hover font-semibold">mahanaimfc@hotmail.com</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <WhatsAppButton />
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('trial-form') as HTMLFormElement | null;
+  const success = document.getElementById('form-success');
+  const note = document.getElementById('form-note');
+  const refEl = document.getElementById('ref-number');
+
+  if (form) {
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      let ok = true;
+      let first: HTMLElement | null = null;
+
+      form.querySelectorAll<HTMLElement>('[required]').forEach((el) => {
+        const input = el as HTMLInputElement;
+        let bad = false;
+        if (input.type === 'checkbox') bad = !input.checked;
+        else bad = !input.value.trim();
+        const err = input.closest('div')?.querySelector('.err') as HTMLElement | null;
+        if (err) err.classList.toggle('hidden', !bad);
+        input.setAttribute('aria-invalid', bad ? 'true' : 'false');
+        if (bad) { ok = false; first = first ?? input; }
+      });
+
+      if (!ok) {
+        if (note) {
+          note.textContent = 'Please complete the highlighted fields.';
+          note.className = 'mt-5 px-4 py-3 font-body text-sm bg-red-50 border border-red-200 text-red-800';
+        }
+        (first as HTMLElement | null)?.focus();
+        return;
+      }
+
+      const ref = 'MFC-' + Date.now().toString(36).toUpperCase().slice(-6);
+      const data: Record<string, string> = { reference: ref };
+      new FormData(form).forEach((v, k) => { data[k] = String(v); });
+      try {
+        const q = JSON.parse(localStorage.getItem('mfc_applications') || '[]');
+        q.push({ ...data, _at: new Date().toISOString() });
+        localStorage.setItem('mfc_applications', JSON.stringify(q));
+      } catch { /* storage unavailable */ }
+
+      const to = 'mahanaimfc@hotmail.com';
+      const subject = encodeURIComponent(`[Mahanaim FC] Trial application ${ref} — ${data.name ?? ''}`);
+      const body = encodeURIComponent(
+        Object.entries(data).map(([k, v]) => `${k}: ${v}`).join('\n') +
+        '\n\n— Sent from mahanaimfc.com/join. Submitting an application does not guarantee selection or a contract.'
+      );
+
+      form.classList.add('hidden');
+      if (refEl) refEl.textContent = ref;
+      if (success) success.classList.remove('hidden');
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    });
+  }
+</script>

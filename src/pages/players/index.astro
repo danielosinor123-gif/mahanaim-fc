@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import PlayerCard from '@/components/PlayerCard.astro';
+
+const players = (await getCollection('players')).sort((a, b) => (a.data.squadNumber ?? 99) - (b.data.squadNumber ?? 99));
+const groups = [
+  { label: 'Goalkeepers', filter: (p: (typeof players)[number]) => p.data.position === 'Goalkeeper' },
+  { label: 'Defenders', filter: (p: (typeof players)[number]) => p.data.position === 'Defender' },
+  { label: 'Midfielders', filter: (p: (typeof players)[number]) => p.data.position === 'Midfielder' },
+  { label: 'Forwards', filter: (p: (typeof players)[number]) => p.data.position === 'Forward' },
+];
+---
+
+<BaseLayout title="Players" description="Mahanaim FC player directory — first-team squad profiles, positions and shirt numbers as published by the club.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="font-display font-bold uppercase text-4xl">Mahanaim Players</h1>
+      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">First-team squad as published on the club's official site. Names, positions and shirt numbers pending final confirmation — photos appear with club consent.</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {groups.map((g) => {
+      const list = players.filter(g.filter);
+      if (list.length === 0) return null;
+      return (
+        <section class="mb-12" aria-label={g.label}>
+          <h2 class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">{g.label}</h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            {list.map((p) => (
+              <PlayerCard name={p.data.name} position={p.data.position} positionDetail={p.data.positionDetail} squadNumber={p.data.squadNumber} photo={p.data.photo} slug={p.id} />
+            ))}
+          </div>
+        </section>
+      );
+    })}
+  </div>
+</BaseLayout>

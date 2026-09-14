@@ -1,0 +1,202 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import MatchTicker from '@/components/MatchTicker.astro';
+import NewsCard from '@/components/NewsCard.astro';
+import PlayerCard from '@/components/PlayerCard.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
+
+const players = (await getCollection('players'))
+  .sort((a, b) => (a.data.squadNumber ?? 99) - (b.data.squadNumber ?? 99));
+const news = (await getCollection('news', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const results = (await getCollection('fixtures'))
+  .filter((f) => f.data.status === 'Completed')
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const lastResult = results[0];
+---
+
+<BaseLayout
+  title="Home"
+  description="Mahanaim Football Club — professional football development in Abuja, Nigeria. Developing players for personal excellence and team success. Est. 2018."
+  ogImage="/images/badge/mahanaim-og.png"
+>
+  <Fragment slot="ticker">
+    <MatchTicker
+      nextOpponent="To be confirmed"
+      nextDate="Watch this space"
+      latestHomeTeam={lastResult ? (lastResult.data.isHome ? 'Mahanaim FC' : lastResult.data.opponent) : 'Mahanaim FC'}
+      latestHomeScore={lastResult?.data.homeScore ?? 0}
+      latestAwayScore={lastResult?.data.awayScore ?? 0}
+      latestAwayTeam={lastResult ? (lastResult.data.isHome ? lastResult.data.opponent : 'Mahanaim FC') : ''}
+      mobileDisplay="latest"
+    />
+  </Fragment>
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <!-- Section 2: Hero — one photograph, dark overlay -->
+  <section class="relative bg-mfc-black text-white overflow-hidden">
+    <img
+      src="/images/about-club.jpg"
+      alt="Mahanaim FC players and officials gathered on the pitch in Abuja"
+      class="absolute inset-0 w-full h-full object-cover object-center opacity-40"
+      width="1000"
+      height="562"
+      loading="eager"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-mfc-black via-mfc-black/70 to-mfc-black/40" aria-hidden="true"></div>
+    <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+      <p class="font-body uppercase text-mfc-gold tracking-widest text-xs font-bold mb-4">Professional football development in Abuja</p>
+      <h1 class="font-display font-bold uppercase text-4xl sm:text-5xl lg:text-6xl leading-tight max-w-3xl">
+        Developing players for personal excellence and team success.
+      </h1>
+      <p class="font-body text-mfc-grey-300 max-w-2xl mt-5 text-base md:text-lg leading-relaxed">
+        Mahanaim Football Club — Football Excellence For Greater Good. An Abuja-based club,
+        launched in 2018, building disciplined footballers and pathways to professional opportunities.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/join" class="btn-gold">Apply for a Trial</a>
+        <a href="/club/story" class="inline-flex items-center px-6 py-3 border-2 border-white text-white font-display uppercase text-sm font-bold tracking-wider hover:bg-white/10 transition-colors">Explore the Club</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Section 3: Latest result (no fixture published — show verified results only) -->
+    <section aria-labelledby="results">
+      <div class="flex items-center justify-between mb-5">
+        <h2 id="results" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3">Latest result</h2>
+        <a href="/fixtures" class="font-display uppercase text-sm font-bold text-mfc-gold-hover">View all fixtures and results</a>
+      </div>
+      {lastResult ? (
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
+          <p class="font-display uppercase text-sm font-bold text-mfc-grey-600">{lastResult.data.competition}</p>
+          <p class="font-display font-bold text-3xl text-mfc-grey-800 mt-2">
+            {lastResult.data.isHome
+              ? `Mahanaim FC ${lastResult.data.homeScore}–${lastResult.data.awayScore} ${lastResult.data.opponent}`
+              : `${lastResult.data.opponent} ${lastResult.data.homeScore}–${lastResult.data.awayScore} Mahanaim FC`}
+          </p>
+          <p class="font-body text-sm text-mfc-grey-600 mt-2">
+            <time datetime={lastResult.data.date.toISOString()}>{lastResult.data.date.toLocaleDateString('en-GB', { timeZone: 'UTC', day: 'numeric', month: 'long', year: 'numeric' })}</time>
+            · {lastResult.data.venue}
+          </p>
+          {lastResult.data.matchReportSlug && <a href={`/news/${lastResult.data.matchReportSlug}`} class="btn-gold mt-4 inline-flex">Match report</a>}
+          <p class="font-body text-xs text-mfc-grey-600 mt-3">As published by the club — details pending confirmation. No upcoming fixture has been announced yet.</p>
+        </div>
+      ) : (
+        <p class="font-body text-mfc-grey-600">No results published yet.</p>
+      )}
+    </section>
+
+    <!-- Section 4: Club introduction -->
+    <section class="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center" aria-labelledby="intro">
+      <div>
+        <h2 id="intro" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">The Club</h2>
+        <p class="font-body text-mfc-grey-800 leading-relaxed">
+          Mahanaim Football Club is an association football team based in Abuja, Nigeria's capital city.
+          Officially launched in 2018 (as stated by the club), it was born out of a passion to revitalise
+          African football by returning to fundamentals — quality, longevity and ambition.
+        </p>
+        <div class="flex flex-wrap gap-4 mt-6">
+          <a href="/club/story" class="btn-gold">Our Story</a>
+          <a href="/club/leadership" class="inline-flex items-center px-6 py-3 border-2 border-mfc-grey-800 text-mfc-grey-800 font-display uppercase text-sm font-bold tracking-wider hover:bg-mfc-grey-100 transition-colors">Leadership & Staff</a>
+        </div>
+      </div>
+      <img src="/images/about-club.jpg" alt="Mahanaim FC squad and officials gathered on the pitch" width="1000" height="562" loading="lazy" class="w-full rounded-lg object-cover" />
+    </section>
+
+    <!-- Section 5: Join Mahanaim (recruitment) -->
+    <section class="mt-14 bg-mfc-black text-white p-8 md:p-10" aria-labelledby="join">
+      <h2 id="join" class="font-display uppercase text-2xl font-bold text-mfc-gold mb-5">Join Mahanaim</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <ul class="list-none p-0 m-0 space-y-3 font-body text-sm text-mfc-grey-300">
+          <li><strong class="text-white">Who can apply:</strong> committed young footballers seeking disciplined development. Players under 18 must apply with a parent or guardian.</li>
+          <li><strong class="text-white">The process:</strong> enquiry → assessment or trial → training and development → matches and exposure → progression opportunities. No guaranteed outcomes.</li>
+          <li><strong class="text-white">Training location:</strong> Mahanaim Arena, Burundi Street, Wuse Zone 5, Abuja (as referenced by the club — confirm before travelling).</li>
+          <li><strong class="text-white">Trial windows:</strong> contact us for current dates — none are published right now.</li>
+        </ul>
+        <div class="flex flex-col justify-center gap-4">
+          <p class="font-body text-sm text-mfc-grey-300">Submitting an application does not guarantee selection or a contract. We aim to respond within a few working days.</p>
+          <a href="/join" class="btn-gold self-start">Start Application</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Latest news -->
+    <section class="mt-14" aria-labelledby="news">
+      <div class="flex items-center justify-between mb-5">
+        <h2 id="news" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3">Latest news</h2>
+        <a href="/news" class="font-display uppercase text-sm font-bold text-mfc-gold-hover">All news</a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {news.slice(0, 3).map((n, i) => (
+          <NewsCard
+            title={n.data.title}
+            date={n.data.date}
+            category={n.data.category}
+            leadImage={n.data.leadImage}
+            leadImageAlt={n.data.leadImageAlt}
+            summary={n.data.summary}
+            slug={n.id}
+            featured={i === 0}
+          />
+        ))}
+      </div>
+    </section>
+
+    <!-- Section 7: Featured players -->
+    <section class="mt-14" aria-labelledby="featured-players">
+      <div class="flex items-center justify-between mb-5">
+        <h2 id="featured-players" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3">First-team squad</h2>
+        <a href="/players" class="font-display uppercase text-sm font-bold text-mfc-gold-hover">All players</a>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {players.slice(0, 6).map((p) => (
+          <PlayerCard name={p.data.name} position={p.data.position} positionDetail={p.data.positionDetail} squadNumber={p.data.squadNumber} photo={p.data.photo} slug={p.id} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Section 8: Club development (current vs planned) -->
+    <section class="mt-14" aria-labelledby="development">
+      <h2 id="development" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">Club development</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
+          <p class="font-display uppercase font-bold text-sm text-mfc-grey-600 mb-2">Current facilities</p>
+          <ul class="list-disc pl-5 font-body text-sm text-mfc-grey-800 space-y-2">
+            <li>Training and matches on available pitches in Abuja</li>
+            <li>Club office at Metta Plaza, Plot 100 Arab Road</li>
+            <li>Match venues vary by fixture</li>
+          </ul>
+        </div>
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
+          <p class="font-display uppercase font-bold text-sm text-mfc-grey-600 mb-2">Planned development <span class="font-body normal-case font-normal text-xs text-mfc-grey-600">· Project status: proposed, not built</span></p>
+          <ul class="list-disc pl-5 font-body text-sm text-mfc-grey-800 space-y-2">
+            <li>13-hectare site near Nnamdi Azikiwe International Airport (as published)</li>
+            <li>Training pitches, player accommodation, dining and media facilities</li>
+            <li>Flagship stadium as centrepiece — all stages proposed, no completion dates claimed</li>
+          </ul>
+        </div>
+      </div>
+      <p class="font-body text-xs text-mfc-grey-600 mt-3"><a href="/club/facilities" class="text-mfc-gold-hover font-semibold">Full facilities and development plan</a></p>
+    </section>
+
+    <!-- Section 9: Media strip -->
+    <section class="mt-14" aria-labelledby="media">
+      <div class="flex items-center justify-between mb-5">
+        <h2 id="media" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3">Media</h2>
+        <a href="https://youtube.com/@mahanaimfcmedia844" target="_blank" rel="noopener noreferrer" class="font-display uppercase text-sm font-bold text-mfc-gold-hover">YouTube channel</a>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[1, 2, 3, 4].map((i) => (
+          <img src={`/images/gallery-g${i}.jpg`} alt={`Mahanaim FC — club photo ${i}`} width="800" height="600" loading="lazy" class="w-full h-40 md:h-48 object-cover rounded" />
+        ))}
+      </div>
+    </section>
+  </div>
+
+  <WhatsAppButton />
+</BaseLayout>
