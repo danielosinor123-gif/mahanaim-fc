@@ -37,99 +37,130 @@ const lastResult = results[0];
   <Fragment slot="header"><Header /></Fragment>
   <Fragment slot="footer"><Footer /></Fragment>
 
-  <!-- Section 2: Hero — one photograph, dark overlay -->
+  <!-- Section 2: Hero -->
   <section class="relative bg-mfc-black text-white overflow-hidden">
     <img
       src="/images/about-club.jpg"
       alt="Mahanaim FC players and officials gathered on the pitch in Abuja"
-      class="absolute inset-0 w-full h-full object-cover object-center opacity-40"
+      class="absolute inset-0 w-full h-full object-cover object-center opacity-35"
       width="1000"
       height="562"
       loading="eager"
     />
-    <div class="absolute inset-0 bg-gradient-to-t from-mfc-black via-mfc-black/70 to-mfc-black/40" aria-hidden="true"></div>
-    <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-      <p class="font-body uppercase text-mfc-gold tracking-widest text-xs font-bold mb-4">Professional football development in Abuja</p>
-      <h1 class="font-display font-bold uppercase text-4xl sm:text-5xl lg:text-6xl leading-tight max-w-3xl">
-        Developing players for personal excellence and team success.
+    <div class="absolute inset-0 bg-gradient-to-t from-mfc-black via-mfc-black/70 to-mfc-black/30" aria-hidden="true"></div>
+    <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 md:pt-28 md:pb-24">
+      <p class="font-body uppercase text-mfc-gold tracking-[0.25em] text-xs sm:text-sm font-bold mb-5">Professional football development in Abuja</p>
+      <h1 class="display-hero max-w-4xl">
+        Developing players for <span class="text-mfc-gold">personal excellence</span> and team success.
       </h1>
-      <p class="font-body text-mfc-grey-300 max-w-2xl mt-5 text-base md:text-lg leading-relaxed">
+      <p class="font-body text-mfc-grey-300 max-w-2xl mt-6 text-base md:text-lg leading-relaxed">
         Mahanaim Football Club — Football Excellence For Greater Good. An Abuja-based club,
         launched in 2018, building disciplined footballers and pathways to professional opportunities.
       </p>
-      <div class="flex flex-wrap gap-4 mt-8">
-        <a href="/join" class="btn-gold">Apply for a Trial</a>
-        <a href="/club/story" class="inline-flex items-center px-6 py-3 border-2 border-white text-white font-display uppercase text-sm font-bold tracking-wider hover:bg-white/10 transition-colors">Explore the Club</a>
+      <div class="flex flex-wrap gap-4 mt-9">
+        <a href="/join" class="btn-gold text-base px-8 py-4">Apply for a Trial</a>
+        <a href="/club/story" class="btn-outline text-base">Explore the Club</a>
+      </div>
+    </div>
+    <!-- Stat strip: real facts only -->
+    <div class="relative border-t border-mfc-grey-800/60 bg-mfc-black/80">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="stat-strip grid grid-cols-2 md:grid-cols-4 gap-6 py-8">
+          <div><p class="stat-number">{players.length}</p><p class="stat-label mt-1">Squad players</p></div>
+          <div><p class="stat-number">2018</p><p class="stat-label mt-1">Founded · Abuja</p></div>
+          <div><p class="stat-number">{results.length}</p><p class="stat-label mt-1">Published results</p></div>
+          <div><p class="stat-number">4</p><p class="stat-label mt-1">Official channels</p></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <!-- Section 3: Latest result (no fixture published — show verified results only) -->
-    <section aria-labelledby="results">
-      <div class="flex items-center justify-between mb-5">
-        <h2 id="results" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3">Latest result</h2>
-        <a href="/fixtures" class="font-display uppercase text-sm font-bold text-mfc-gold-hover">View all fixtures and results</a>
+  <!-- Section 3: Latest result -->
+  <section class="band-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-7">
+        <div>
+          <p class="section-kicker">Matchday</p>
+          <h2 class="section-title">Latest result</h2>
+        </div>
+        <a href="/fixtures" class="font-display uppercase text-sm font-bold text-mfc-gold-hover tracking-wider hover:underline decoration-mfc-gold decoration-2 underline-offset-4">View all fixtures and results →</a>
       </div>
       {lastResult ? (
-        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
-          <p class="font-display uppercase text-sm font-bold text-mfc-grey-600">{lastResult.data.competition}</p>
-          <p class="font-display font-bold text-3xl text-mfc-grey-800 mt-2">
-            {lastResult.data.isHome
-              ? `Mahanaim FC ${lastResult.data.homeScore}–${lastResult.data.awayScore} ${lastResult.data.opponent}`
-              : `${lastResult.data.opponent} ${lastResult.data.homeScore}–${lastResult.data.awayScore} Mahanaim FC`}
-          </p>
-          <p class="font-body text-sm text-mfc-grey-600 mt-2">
-            <time datetime={lastResult.data.date.toISOString()}>{lastResult.data.date.toLocaleDateString('en-GB', { timeZone: 'UTC', day: 'numeric', month: 'long', year: 'numeric' })}</time>
-            · {lastResult.data.venue}
-          </p>
-          {lastResult.data.matchReportSlug && <a href={`/news/${lastResult.data.matchReportSlug}`} class="btn-gold mt-4 inline-flex">Match report</a>}
-          <p class="font-body text-xs text-mfc-grey-600 mt-3">As published by the club — details pending confirmation. No upcoming fixture has been announced yet.</p>
+        <div class="card-lift bg-mfc-off-white border border-mfc-grey-100 p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+          <div>
+            <p class="font-display uppercase text-sm font-bold text-mfc-grey-600 tracking-wider">{lastResult.data.competition}</p>
+            <p class="font-body text-sm text-mfc-grey-600 mt-1">
+              <time datetime={lastResult.data.date.toISOString()}>{lastResult.data.date.toLocaleDateString('en-GB', { timeZone: 'UTC', day: 'numeric', month: 'long', year: 'numeric' })}</time>
+            </p>
+            <p class="font-body text-xs text-mfc-grey-600 mt-0.5">{lastResult.data.venue}</p>
+          </div>
+          <div class="text-center">
+            <p class="font-display uppercase font-bold text-lg text-mfc-grey-800">{lastResult.data.isHome ? 'Mahanaim FC' : lastResult.data.opponent} <span class="text-mfc-grey-600 font-normal">vs</span> {lastResult.data.isHome ? lastResult.data.opponent : 'Mahanaim FC'}</p>
+            <p class="score-big mt-2">{lastResult.data.homeScore} <span class="text-mfc-grey-300">–</span> <span class="gold">{lastResult.data.awayScore}</span></p>
+          </div>
+          <div class="md:text-right">
+            {lastResult.data.matchReportSlug && <a href={`/news/${lastResult.data.matchReportSlug}`} class="btn-gold">Match report</a>}
+            <p class="font-body text-xs text-mfc-grey-600 mt-3">As published by the club — details pending confirmation.</p>
+          </div>
         </div>
       ) : (
         <p class="font-body text-mfc-grey-600">No results published yet.</p>
       )}
-    </section>
+    </div>
+  </section>
 
-    <!-- Section 4: Club introduction -->
-    <section class="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center" aria-labelledby="intro">
+  <!-- Section 4: Club introduction -->
+  <section class="band-off-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
       <div>
-        <h2 id="intro" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">The Club</h2>
+        <p class="section-kicker">The Club</p>
+        <h2 class="section-title mb-5">Abuja's developer of disciplined footballers</h2>
         <p class="font-body text-mfc-grey-800 leading-relaxed">
           Mahanaim Football Club is an association football team based in Abuja, Nigeria's capital city.
           Officially launched in 2018 (as stated by the club), it was born out of a passion to revitalise
           African football by returning to fundamentals — quality, longevity and ambition.
         </p>
-        <div class="flex flex-wrap gap-4 mt-6">
+        <div class="flex flex-wrap gap-4 mt-7">
           <a href="/club/story" class="btn-gold">Our Story</a>
-          <a href="/club/leadership" class="inline-flex items-center px-6 py-3 border-2 border-mfc-grey-800 text-mfc-grey-800 font-display uppercase text-sm font-bold tracking-wider hover:bg-mfc-grey-100 transition-colors">Leadership & Staff</a>
+          <a href="/club/leadership" class="btn-outline-dark">Leadership & Staff</a>
         </div>
       </div>
-      <img src="/images/about-club.jpg" alt="Mahanaim FC squad and officials gathered on the pitch" width="1000" height="562" loading="lazy" class="w-full rounded-lg object-cover" />
-    </section>
+      <img src="/images/about-club.jpg" alt="Mahanaim FC squad and officials gathered on the pitch" width="1000" height="562" loading="lazy" class="w-full rounded-lg object-cover shadow-lg" />
+    </div>
+  </section>
 
-    <!-- Section 5: Join Mahanaim (recruitment) -->
-    <section class="mt-14 bg-mfc-black text-white p-8 md:p-10" aria-labelledby="join">
-      <h2 id="join" class="font-display uppercase text-2xl font-bold text-mfc-gold mb-5">Join Mahanaim</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <ul class="list-none p-0 m-0 space-y-3 font-body text-sm text-mfc-grey-300">
-          <li><strong class="text-white">Who can apply:</strong> committed young footballers seeking disciplined development. Players under 18 must apply with a parent or guardian.</li>
-          <li><strong class="text-white">The process:</strong> enquiry → assessment or trial → training and development → matches and exposure → progression opportunities. No guaranteed outcomes.</li>
-          <li><strong class="text-white">Training location:</strong> Mahanaim Arena, Burundi Street, Wuse Zone 5, Abuja (as referenced by the club — confirm before travelling).</li>
-          <li><strong class="text-white">Trial windows:</strong> contact us for current dates — none are published right now.</li>
-        </ul>
-        <div class="flex flex-col justify-center gap-4">
-          <p class="font-body text-sm text-mfc-grey-300">Submitting an application does not guarantee selection or a contract. We aim to respond within a few working days.</p>
-          <a href="/join" class="btn-gold self-start">Start Application</a>
+  <!-- Section 5: Join Mahanaim -->
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div>
+          <p class="section-kicker">Join Us</p>
+          <h2 class="section-title text-white mb-6">Your pathway starts here</h2>
+          <ul class="list-none p-0 m-0 space-y-4 font-body text-sm text-mfc-grey-300">
+            <li class="border-l-2 border-mfc-gold pl-4"><strong class="text-white block mb-0.5">Who can apply</strong>Committed young footballers seeking disciplined development. Under-18s apply with a parent or guardian.</li>
+            <li class="border-l-2 border-mfc-gold pl-4"><strong class="text-white block mb-0.5">The process</strong>Enquiry → assessment or trial → training and development → matches and exposure → progression opportunities.</li>
+            <li class="border-l-2 border-mfc-gold pl-4"><strong class="text-white block mb-0.5">Training location</strong>Mahanaim Arena, Burundi Street, Wuse Zone 5, Abuja (as referenced — confirm before travelling).</li>
+            <li class="border-l-2 border-mfc-gold pl-4"><strong class="text-white block mb-0.5">Trial windows</strong>Contact us for current dates — none are published right now.</li>
+          </ul>
+        </div>
+        <div class="bg-mfc-near-black border border-mfc-grey-800 p-8 flex flex-col justify-center">
+          <p class="font-display uppercase font-bold text-xl text-mfc-gold">Ready to be seen?</p>
+          <p class="font-body text-sm text-mfc-grey-300 mt-3 leading-relaxed">Submitting an application does not guarantee selection or a contract. We aim to respond within a few working days — and your application gets a reference number for follow-up.</p>
+          <a href="/join" class="btn-gold text-base px-8 py-4 mt-6 self-start">Start Application</a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Section 6: Latest news -->
-    <section class="mt-14" aria-labelledby="news">
-      <div class="flex items-center justify-between mb-5">
-        <h2 id="news" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3">Latest news</h2>
-        <a href="/news" class="font-display uppercase text-sm font-bold text-mfc-gold-hover">All news</a>
+  <!-- Section 6: Latest news -->
+  <section class="band-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-7">
+        <div>
+          <p class="section-kicker">Newsroom</p>
+          <h2 class="section-title">Latest news</h2>
+        </div>
+        <a href="/news" class="font-display uppercase text-sm font-bold text-mfc-gold-hover tracking-wider hover:underline decoration-mfc-gold decoration-2 underline-offset-4">All news →</a>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {news.slice(0, 3).map((n, i) => (
@@ -145,58 +176,76 @@ const lastResult = results[0];
           />
         ))}
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Section 7: Featured players -->
-    <section class="mt-14" aria-labelledby="featured-players">
-      <div class="flex items-center justify-between mb-5">
-        <h2 id="featured-players" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3">First-team squad</h2>
-        <a href="/players" class="font-display uppercase text-sm font-bold text-mfc-gold-hover">All players</a>
+  <!-- Section 7: Featured players -->
+  <section class="band-off-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-7">
+        <div>
+          <p class="section-kicker">The Squad</p>
+          <h2 class="section-title">First-team players</h2>
+        </div>
+        <a href="/players" class="font-display uppercase text-sm font-bold text-mfc-gold-hover tracking-wider hover:underline decoration-mfc-gold decoration-2 underline-offset-4">All {players.length} players →</a>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {players.slice(0, 6).map((p) => (
           <PlayerCard name={p.data.name} position={p.data.position} positionDetail={p.data.positionDetail} squadNumber={p.data.squadNumber} photo={p.data.photo} slug={p.id} />
         ))}
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Section 8: Club development (current vs planned) -->
-    <section class="mt-14" aria-labelledby="development">
-      <h2 id="development" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">Club development</h2>
+  <!-- Section 8: Club development -->
+  <section class="band-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <p class="section-kicker">Development</p>
+      <h2 class="section-title mb-7">Where we are, where we're going</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
-          <p class="font-display uppercase font-bold text-sm text-mfc-grey-600 mb-2">Current facilities</p>
+        <div class="card-lift bg-mfc-off-white border border-mfc-grey-100 p-7">
+          <p class="font-display uppercase font-bold text-sm text-mfc-grey-600 tracking-wider mb-3">Current facilities <span class="font-body normal-case font-normal text-xs">· in use now</span></p>
           <ul class="list-disc pl-5 font-body text-sm text-mfc-grey-800 space-y-2">
             <li>Training and matches on available pitches in Abuja</li>
             <li>Club office at Metta Plaza, Plot 100 Arab Road</li>
             <li>Match venues vary by fixture</li>
           </ul>
         </div>
-        <div class="bg-mfc-off-white border border-mfc-grey-100 p-6">
-          <p class="font-display uppercase font-bold text-sm text-mfc-grey-600 mb-2">Planned development <span class="font-body normal-case font-normal text-xs text-mfc-grey-600">· Project status: proposed, not built</span></p>
+        <div class="card-lift bg-mfc-off-white border border-mfc-grey-100 p-7">
+          <p class="font-display uppercase font-bold text-sm text-mfc-grey-600 tracking-wider mb-3">Planned development <span class="font-body normal-case font-normal text-xs">· proposed, not built</span></p>
           <ul class="list-disc pl-5 font-body text-sm text-mfc-grey-800 space-y-2">
             <li>13-hectare site near Nnamdi Azikiwe International Airport (as published)</li>
-            <li>Training pitches, player accommodation, dining and media facilities</li>
-            <li>Flagship stadium as centrepiece — all stages proposed, no completion dates claimed</li>
+            <li>Training pitches, accommodation, dining and media facilities</li>
+            <li>Flagship stadium — all stages proposed, no completion dates claimed</li>
           </ul>
         </div>
       </div>
-      <p class="font-body text-xs text-mfc-grey-600 mt-3"><a href="/club/facilities" class="text-mfc-gold-hover font-semibold">Full facilities and development plan</a></p>
-    </section>
+      <a href="/club/facilities" class="font-display uppercase text-sm font-bold text-mfc-gold-hover tracking-wider mt-5 inline-block hover:underline decoration-mfc-gold decoration-2 underline-offset-4">Full facilities and development plan →</a>
+    </div>
+  </section>
 
-    <!-- Section 9: Media strip -->
-    <section class="mt-14" aria-labelledby="media">
-      <div class="flex items-center justify-between mb-5">
-        <h2 id="media" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3">Media</h2>
-        <a href="https://youtube.com/@mahanaimfcmedia844" target="_blank" rel="noopener noreferrer" class="font-display uppercase text-sm font-bold text-mfc-gold-hover">YouTube channel</a>
+  <!-- Section 9: Media strip -->
+  <section class="band-off-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-7">
+        <div>
+          <p class="section-kicker">Media</p>
+          <h2 class="section-title">Inside the club</h2>
+        </div>
+        <a href="https://youtube.com/@mahanaimfcmedia844" target="_blank" rel="noopener noreferrer" class="font-display uppercase text-sm font-bold text-mfc-gold-hover tracking-wider hover:underline decoration-mfc-gold decoration-2 underline-offset-4">YouTube channel →</a>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[1, 2, 3, 4].map((i) => (
-          <img src={`/images/gallery-g${i}.jpg`} alt={`Mahanaim FC — club photo ${i}`} width="800" height="600" loading="lazy" class="w-full h-40 md:h-48 object-cover rounded" />
+          <img src={`/images/gallery-g${i}.jpg`} alt={`Mahanaim FC — club photo ${i}`} width="800" height="600" loading="lazy" class="w-full h-44 md:h-52 object-cover rounded" />
         ))}
       </div>
-    </section>
-  </div>
+      <div class="flex flex-wrap gap-6 mt-6 font-body text-sm">
+        <a href="https://www.instagram.com/mahanaimfc2022/" target="_blank" rel="noopener noreferrer" class="text-mfc-gold-hover font-semibold">Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=100083995110646" target="_blank" rel="noopener noreferrer" class="text-mfc-gold-hover font-semibold">Facebook</a>
+        <a href="https://twitter.com/mahanaimFC" target="_blank" rel="noopener noreferrer" class="text-mfc-gold-hover font-semibold">X</a>
+      </div>
+    </div>
+  </section>
 
   <WhatsAppButton />
 </BaseLayout>

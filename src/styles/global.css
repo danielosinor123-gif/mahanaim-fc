@@ -184,3 +184,143 @@ a {
   scroll-snap-align: start;
   flex-shrink: 0;
 }
+
+/* ---- UI/UX polish: bolder, more noticeable, still disciplined ---- */
+
+::selection {
+  background-color: var(--color-mfc-gold);
+  color: var(--color-mfc-black);
+}
+
+/* Section kicker label */
+.section-kicker {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-mfc-gold-hover);
+  margin-bottom: 0.5rem;
+}
+.section-kicker::before {
+  content: "";
+  display: inline-block;
+  width: 1.75rem;
+  height: 3px;
+  background-color: var(--color-mfc-gold);
+  margin-right: 0.6rem;
+  vertical-align: middle;
+}
+
+/* Section title */
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--color-mfc-grey-800);
+  line-height: 1.1;
+}
+@media (min-width: 768px) {
+  .section-title { font-size: 2.5rem; }
+}
+
+/* Bigger display headlines */
+h1.display-hero {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(2.75rem, 8vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+/* Stat strip */
+.stat-strip {
+  border-top: 3px solid var(--color-mfc-gold);
+}
+.stat-number {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1;
+  color: var(--color-mfc-gold);
+}
+.stat-label {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-mfc-grey-300);
+}
+
+/* Button: hover lift + arrow nudge */
+.btn-gold {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+.btn-gold:hover {
+  background-color: var(--color-mfc-gold-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+.btn-gold:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Outlined buttons on light backgrounds */
+.btn-outline-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: transparent;
+  color: var(--color-mfc-grey-800);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 2px solid var(--color-mfc-grey-800);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+.btn-outline-dark:hover {
+  background-color: var(--color-mfc-grey-800);
+  color: var(--color-mfc-white);
+  transform: translateY(-2px);
+}
+
+/* Card hover: lift + gold border */
+.card-lift {
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-mfc-gold);
+  box-shadow: 0 10px 24px rgba(11, 11, 11, 0.08);
+}
+
+/* Big score display for result blocks */
+.score-big {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1;
+  color: var(--color-mfc-grey-800);
+  letter-spacing: -0.02em;
+}
+.score-big .gold { color: var(--color-mfc-gold); }
+
+/* Alternate band backgrounds */
+.band-off-white { background-color: var(--color-mfc-off-white); }
+.band-white { background-color: var(--color-mfc-white); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .btn-gold, .btn-outline-dark, .card-lift { transition: none; transform: none !important; }
+}
