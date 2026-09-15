@@ -1,7 +1,7 @@
-﻿---
+---
 opponent: "Spain FA"
 competition: "Friendly"
-date: 2026-08-08
+date: "2026-08-08"
 venue: "Mahanaim FC football pitch, Abuja"
 isHome: true
 status: "Completed"
@@ -10,5 +10,4 @@ awayScore: 1
 matchReportSlug: "spain-fa-double"
 ---
 
-As published by the club.
-
+Spain FA — Friendly.

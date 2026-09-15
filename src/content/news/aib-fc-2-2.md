@@ -1,6 +1,6 @@
-﻿---
+---
 title: "Mahanaim forced to 2-2 draw by AIB"
-date: 2026-08-25
+date: "2026-08-25"
 author: "Mahanaim FC"
 category: "Match Report"
 leadImage: "/images/news/aib-draw.jpg"
@@ -11,4 +11,3 @@ draft: false
 ---
 
 Mahanaim FC were held to a 2-2 draw by AIB FC at the Sunrise Waterpark Arena, as published by the club. A full match report is to be supplied by staff.
-

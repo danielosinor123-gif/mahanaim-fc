@@ -1,0 +1,318 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="Admin" description="Mahanaim FC staff admin — manage players, fixtures and news.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-5xl">
+    <!-- Login -->
+    <div id="login-panel" class="max-w-md mx-auto bg-mfc-off-white border border-mfc-grey-100 p-8">
+      <h1 class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">Staff admin</h1>
+      <form id="login-form" novalidate>
+        <label for="a-email" class="block font-body text-sm font-semibold mb-1.5">Email</label>
+        <input id="a-email" name="email" type="email" required autocomplete="email" class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-mfc-gold" />
+        <label for="a-pass" class="block font-body text-sm font-semibold mb-1.5">Password</label>
+        <input id="a-pass" name="password" type="password" required autocomplete="current-password" class="w-full px-3 py-2.5 border border-mfc-grey-300 font-body text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-mfc-gold" />
+        <p id="login-err" class="hidden font-body text-xs text-red-700 mb-3"></p>
+        <button type="submit" class="btn-gold w-full justify-center">Sign in</button>
+      </form>
+      <p class="font-body text-xs text-mfc-grey-600 mt-4">Staff accounts only. All changes are logged against your account. For access, contact the club office.</p>
+    </div>
+
+    <!-- Panel -->
+    <div id="admin-panel" class="hidden">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3">Staff admin</h1>
+          <p class="font-body text-sm text-mfc-grey-600 mt-1">Signed in as <span id="whoami" class="font-semibold"></span></p>
+        </div>
+        <div class="flex gap-3">
+          <button id="publish-btn" class="btn-gold" title="Rebuild the live site with your changes">Publish changes</button>
+          <button id="logout-btn" class="btn-outline-dark">Sign out</button>
+        </div>
+      </div>
+
+      <div class="flex gap-2 mb-6 border-b border-mfc-grey-200">
+        <button data-tab="players" class="tab-btn font-display uppercase font-bold text-sm tracking-wider px-4 py-2 border-b-2 border-mfc-gold text-mfc-grey-800">Players</button>
+        <button data-tab="fixtures" class="tab-btn font-display uppercase font-bold text-sm tracking-wider px-4 py-2 border-b-2 border-transparent text-mfc-grey-600">Fixtures</button>
+        <button data-tab="news" class="tab-btn font-display uppercase font-bold text-sm tracking-wider px-4 py-2 border-b-2 border-transparent text-mfc-grey-600">News</button>
+      </div>
+
+      <p id="admin-msg" class="hidden mb-4 px-4 py-3 font-body text-sm" role="status" aria-live="polite"></p>
+
+      <!-- Players tab -->
+      <section data-panel="players">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="font-display uppercase font-bold text-lg text-mfc-grey-800">Players (<span data-count="players">0</span>)</h2>
+          <button data-add="players" class="btn-gold text-xs">+ Add player</button>
+        </div>
+        <div data-list="players" class="space-y-2"></div>
+        <form data-form="players" class="hidden bg-mfc-off-white border border-mfc-grey-100 p-6 mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div><label class="block font-body text-xs font-semibold mb-1">Name *</label><input name="name" required class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Squad number</label><input name="number" type="number" class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Position *</label><select name="position" required class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm"><option>Goalkeeper</option><option>Defender</option><option>Midfielder</option><option>Forward</option></select></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Position detail</label><input name="position_detail" placeholder="e.g. Right-Back" class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Date of birth</label><input name="date_of_birth" placeholder="e.g. June 06, 2009" class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Photo path</label><input name="photo" placeholder="/images/players/name-01.jpg" class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+          <div class="sm:col-span-2 flex gap-3">
+            <button type="submit" class="btn-gold text-xs">Save player</button>
+            <button type="button" data-cancel class="btn-outline-dark text-xs">Cancel</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Fixtures tab -->
+      <section data-panel="fixtures" class="hidden">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="font-display uppercase font-bold text-lg text-mfc-grey-800">Fixtures (<span data-count="fixtures">0</span>)</h2>
+          <button data-add="fixtures" class="btn-gold text-xs">+ Add fixture</button>
+        </div>
+        <div data-list="fixtures" class="space-y-2"></div>
+        <form data-form="fixtures" class="hidden bg-mfc-off-white border border-mfc-grey-100 p-6 mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div><label class="block font-body text-xs font-semibold mb-1">Opponent *</label><input name="opponent" required class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Competition *</label><input name="competition" value="Friendly" required class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Date *</label><input name="date" type="date" required class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Venue *</label><input name="venue" required class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Home or away</label><select name="is_home" class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm"><option value="true">Home</option><option value="false">Away</option></select></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Status</label><select name="status" class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm"><option>Scheduled</option><option>Completed</option><option>Postponed</option><option>Cancelled</option></select></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Home score</label><input name="score_home" type="number" class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Away score</label><input name="score_away" type="number" class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+          <div class="sm:col-span-2 flex gap-3">
+            <button type="submit" class="btn-gold text-xs">Save fixture</button>
+            <button type="button" data-cancel class="btn-outline-dark text-xs">Cancel</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- News tab -->
+      <section data-panel="news" class="hidden">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="font-display uppercase font-bold text-lg text-mfc-grey-800">News (<span data-count="news">0</span>)</h2>
+          <button data-add="news" class="btn-gold text-xs">+ Add post</button>
+        </div>
+        <div data-list="news" class="space-y-2"></div>
+        <form data-form="news" class="hidden bg-mfc-off-white border border-mfc-grey-100 p-6 mt-4 grid grid-cols-1 gap-4">
+          <div><label class="block font-body text-xs font-semibold mb-1">Title *</label><input name="title" required class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div><label class="block font-body text-xs font-semibold mb-1">Date *</label><input name="date" type="date" required class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+            <div><label class="block font-body text-xs font-semibold mb-1">Category *</label><select name="category" class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm"><option>Match Report</option><option>Transfer</option><option>Club News</option><option>Academy</option><option>Announcement</option></select></div>
+          </div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Lead image path *</label><input name="image" value="/images/news/aib-draw.jpg" required class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Image alt text *</label><input name="image_alt" required class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm" /></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Summary *</label><textarea name="excerpt" rows="2" required class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm"></textarea></div>
+          <div><label class="block font-body text-xs font-semibold mb-1">Article body</label><textarea name="body" rows="5" class="w-full px-3 py-2 border border-mfc-grey-300 font-body text-sm"></textarea></div>
+          <div class="flex gap-3">
+            <button type="submit" class="btn-gold text-xs">Save post</button>
+            <button type="button" data-cancel class="btn-outline-dark text-xs">Cancel</button>
+          </div>
+        </form>
+      </section>
+
+      <div class="bg-mfc-off-white border-l-4 border-mfc-gold p-5 mt-10">
+        <p class="font-body text-xs text-mfc-grey-600">
+          <strong>How publishing works:</strong> save or delete rows here, then press "Publish changes" — the live site
+          rebuilds from this database in 1–2 minutes. Changes are logged against your account. Never publish player
+          data or photos without consent — see the <a href="/safeguarding" class="text-mfc-gold-hover font-semibold">safeguarding notice</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  import { createClient } from '@supabase/supabase-js';
+
+  const SUPABASE_URL = 'https://cdontogynrllryqytnjf.supabase.co';
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNkb250b2d5bnJsbHJ5cXl0bmpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzMzI4NzQsImV4cCI6MjEwNDkwODg3NH0.pD5gS8H5IvPq5dSRFsP_8BUxs3DzRnAQKW_hcW2XPlE';
+  const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+  const $ = (id: string) => document.getElementById(id);
+  const loginPanel = $('login-panel') as HTMLElement;
+  const adminPanel = $('admin-panel') as HTMLElement;
+  const msg = $('admin-msg') as HTMLElement;
+  const TABLES = ['players', 'fixtures', 'news'] as const;
+  type Table = (typeof TABLES)[number];
+  let cache: Record<string, any[]> = { players: [], fixtures: [], news: [] };
+  let editing: Record<string, string | null> = { players: null, fixtures: null, news: null };
+
+  function showMsg(text: string, ok = true) {
+    msg.textContent = text;
+    msg.className = ok
+      ? 'mb-4 px-4 py-3 font-body text-sm bg-green-50 border border-green-200 text-green-800'
+      : 'mb-4 px-4 py-3 font-body text-sm bg-red-50 border border-red-200 text-red-800';
+  }
+
+  async function loadAll() {
+    for (const t of TABLES) {
+      const order = t === 'players' ? 'name' : t === 'fixtures' ? 'date' : 'date';
+      const { data, error } = await sb.from(t).select('*').order(order, { ascending: t !== 'players' });
+      if (error) { showMsg('Load failed: ' + error.message, false); return; }
+      cache[t] = data ?? [];
+      const count = document.querySelector(`[data-count="${t}"]`);
+      if (count) count.textContent = String(cache[t].length);
+      renderList(t);
+    }
+  }
+
+  function renderList(t: Table) {
+    const list = document.querySelector(`[data-list="${t}"]`) as HTMLElement;
+    list.innerHTML = '';
+    cache[t].forEach((row) => {
+      const el = document.createElement('div');
+      el.className = 'flex items-center justify-between bg-mfc-off-white border border-mfc-grey-100 px-4 py-3';
+      const label =
+        t === 'players'
+          ? `<span class="font-display font-bold text-mfc-gold mr-2">${row.number ?? '–'}</span> ${row.name} <span class="font-body text-xs text-mfc-grey-600 ml-2">${row.position_detail || row.position}</span>`
+          : t === 'fixtures'
+          ? `<strong>${row.is_home ? 'Mahanaim FC' : row.opponent}</strong> ${row.score_home ?? ''}${row.score_away ? '–' + row.score_away : ''} <strong>${row.is_home ? row.opponent : 'Mahanaim FC'}</strong> <span class="font-body text-xs text-mfc-grey-600 ml-2">${row.date} · ${row.status}</span>`
+          : `<strong>${row.title}</strong> <span class="font-body text-xs text-mfc-grey-600 ml-2">${row.date} · ${row.category}${row.published ? '' : ' · DRAFT'}</span>`;
+      el.innerHTML = `<div class="font-body text-sm">${label}</div>
+        <div class="flex gap-2">
+          <button data-edit="${row.id}" class="font-display uppercase text-xs font-bold text-mfc-gold-hover px-2 py-1">Edit</button>
+          <button data-del="${row.id}" class="font-display uppercase text-xs font-bold text-red-700 px-2 py-1">Delete</button>
+        </div>`;
+      list.appendChild(el);
+    });
+    list.querySelectorAll('[data-del]').forEach((b) =>
+      b.addEventListener('click', () => del(t, (b as HTMLElement).dataset.del!))
+    );
+    list.querySelectorAll('[data-edit]').forEach((b) =>
+      b.addEventListener('click', () => edit(t, (b as HTMLElement).dataset.edit!))
+    );
+  }
+
+  async function del(t: Table, id: string) {
+    if (!confirm('Delete this row? It will be removed from the site on next publish.')) return;
+    const { error } = await sb.from(t).delete().eq('id', id);
+    if (error) { showMsg('Delete failed: ' + error.message, false); return; }
+    showMsg('Deleted. Press "Publish changes" to update the live site.');
+    await loadAll();
+  }
+
+  function edit(t: Table, id: string) {
+    const row = cache[t].find((r) => r.id === id);
+    if (!row) return;
+    editing[t] = id;
+    const form = document.querySelector(`[data-form="${t}"]`) as HTMLFormElement;
+    form.classList.remove('hidden');
+    Object.entries(row).forEach(([k, v]) => {
+      const input = form.elements.namedItem(k) as HTMLInputElement | null;
+      if (input && v !== null && typeof v !== 'object') input.value = String(v);
+    });
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  document.querySelectorAll('[data-add]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const t = (b as HTMLElement).dataset.add as Table;
+      editing[t] = null;
+      const form = document.querySelector(`[data-form="${t}"]`) as HTMLFormElement;
+      form.reset();
+      form.classList.remove('hidden');
+      form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    })
+  );
+  document.querySelectorAll('[data-cancel]').forEach((b) =>
+    b.addEventListener('click', () => (b.closest('form') as HTMLFormElement).classList.add('hidden'))
+  );
+
+  document.querySelectorAll('[data-form]').forEach((f) =>
+    f.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const t = (f as HTMLElement).dataset.form as Table;
+      const form = f as HTMLFormElement;
+      const payload: Record<string, any> = {};
+      new FormData(form).forEach((v, k) => {
+        if (String(v).trim() === '') return;
+        payload[k] = t === 'fixtures' && k === 'is_home' ? v === 'true' : v;
+      });
+      if (t === 'news') { payload.published = true; payload.published_at = new Date().toISOString(); }
+      payload.updated_at = new Date().toISOString();
+      let err;
+      if (editing[t]) {
+        ({ error: err } = await sb.from(t).update(payload).eq('id', editing[t]));
+      } else {
+        if (t === 'players') {
+          payload.id = payload.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+          payload.slug = payload.id;
+          payload.squad = 'First Team';
+          payload.status = 'current';
+          payload.published = true;
+          payload.photo = payload.photo || '/images/badge/mahanaimfc.png';
+        }
+        if (t === 'fixtures') { payload.id = crypto.randomUUID(); payload.published = true; }
+        if (t === 'news') { payload.id = payload.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); payload.slug = payload.id; }
+        ({ error: err } = await sb.from(t).insert(payload));
+      }
+      if (err) { showMsg('Save failed: ' + err.message, false); return; }
+      editing[t] = null;
+      form.classList.add('hidden');
+      form.reset();
+      showMsg('Saved. Press "Publish changes" to update the live site.');
+      await loadAll();
+    })
+  );
+
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach((b) =>
+    b.addEventListener('click', () => {
+      const t = (b as HTMLElement).dataset.tab;
+      document.querySelectorAll('.tab-btn').forEach((x) => {
+        x.className = x.className.replace('border-mfc-gold text-mfc-grey-800', 'border-transparent text-mfc-grey-600');
+      });
+      b.className = b.className.replace('border-transparent text-mfc-grey-600', 'border-mfc-gold text-mfc-grey-800');
+      document.querySelectorAll('[data-panel]').forEach((p) => p.classList.add('hidden'));
+      (document.querySelector(`[data-panel="${t}"]`) as HTMLElement).classList.remove('hidden');
+    })
+  );
+
+  // Publish = trigger Vercel deploy hook (rebuild pulls content from Supabase)
+  const DEPLOY_HOOK: string | null = null; // set to the Vercel deploy-hook URL once configured
+  $('publish-btn')?.addEventListener('click', async () => {
+    if (!DEPLOY_HOOK) {
+      showMsg('Saved changes are in the database. Automatic rebuild is not configured yet — the site administrator can enable it in Vercel (Settings → Git → Deploy Hooks).', true);
+      return;
+    }
+    showMsg('Rebuild started — the live site updates in 1–2 minutes.');
+    try { await fetch(DEPLOY_HOOK); } catch { showMsg('Rebuild request sent.', true); }
+  });
+
+  // Auth
+  $('login-form')?.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const email = ($('a-email') as HTMLInputElement).value.trim();
+    const password = ($('a-pass') as HTMLInputElement).value;
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) {
+      const e = $('login-err') as HTMLElement;
+      e.textContent = error.message;
+      e.classList.remove('hidden');
+      return;
+    }
+    localStorage.setItem('mfc_admin_session', '1');
+    enter(data?.user?.email ?? '');
+  });
+
+  function enter(email: string) {
+    loginPanel.classList.add('hidden');
+    adminPanel.classList.remove('hidden');
+    ($('whoami') as HTMLElement).textContent = email;
+    loadAll();
+  }
+
+  $('logout-btn')?.addEventListener('click', async () => {
+    await sb.auth.signOut();
+    localStorage.removeItem('mfc_admin_session');
+    adminPanel.classList.add('hidden');
+    loginPanel.classList.remove('hidden');
+  });
+
+  // Auto-restore session
+  sb.auth.getSession().then(({ data }) => {
+    if (data.session) enter(data.session.user.email ?? '');
+  });
+</script>

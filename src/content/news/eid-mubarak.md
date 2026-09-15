@@ -1,6 +1,6 @@
-﻿---
+---
 title: "Eid Mubarak from Mahanaim Football Club"
-date: 2026-03-20
+date: "2026-03-20"
 author: "Mahanaim FC"
 category: "Club News"
 leadImage: "/images/badge/mahanaim-og.png"
@@ -11,4 +11,3 @@ draft: false
 ---
 
 Eid Mubarak to all supporters, players, staff and well-wishers from everyone at Mahanaim Football Club, as published by the club.
-
