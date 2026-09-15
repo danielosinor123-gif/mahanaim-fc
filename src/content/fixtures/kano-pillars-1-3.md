@@ -7,7 +7,7 @@ isHome: true
 status: "Completed"
 homeScore: 1
 awayScore: 3
-matchReportSlug: "kano-pillars-3-1"
+matchReportSlug: "mahanaim-edge-kano-pillars-3-1-in-cracking-encounter"
 ---
 
 Kano Pillars — Friendly.

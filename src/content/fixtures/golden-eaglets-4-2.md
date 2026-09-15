@@ -7,7 +7,7 @@ isHome: true
 status: "Completed"
 homeScore: 4
 awayScore: 2
-matchReportSlug: "golden-eaglets-4-2"
+matchReportSlug: "mahanaim-pass-golden-eaglets-test-with-4-2-victory"
 ---
 
 Golden Eaglets (Nigeria U17) — Friendly.

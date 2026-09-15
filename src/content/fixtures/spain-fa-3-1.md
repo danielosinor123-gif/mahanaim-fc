@@ -7,7 +7,7 @@ isHome: true
 status: "Completed"
 homeScore: 3
 awayScore: 1
-matchReportSlug: "spain-fa-double"
+matchReportSlug: "mahanaim-do-the-double-over-spain-fa"
 ---
 
 Spain FA — Friendly.
