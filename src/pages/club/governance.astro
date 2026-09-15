@@ -36,14 +36,28 @@ import Footer from '@/components/Footer.astro';
     </section>
 
     <section class="mt-12" aria-labelledby="affiliations">
-      <h2 id="affiliations" class="font-display uppercase text-2xl font-bold text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-5">Affiliations</h2>
+      <h2 id="affiliations" class="section-title mb-5">Club affiliations</h2>
       <p class="font-body text-mfc-grey-800 leading-relaxed">
-        The club's previous site displayed FIFA, CAF and NFF references.
-        <strong>The exact relationship — regulation, registration, association or competition — has not been verified</strong>
-        and is pending confirmation by the club. No membership or formal affiliation is claimed on this site.
+        The club's published affiliations are shown below, as displayed on the official Mahanaim website.
+        These are the governing bodies of world, African and Nigerian football respectively.
       </p>
-      <div class="bg-mfc-off-white border-l-4 border-mfc-gold p-5 mt-5">
-        <p class="font-body text-sm text-mfc-grey-800">Club staff: confirm the precise status of each football-governing-body relationship before it is stated publicly.</p>
+      <div class="grid grid-cols-3 gap-5 mt-6 max-w-xl">
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-5 flex items-center justify-center">
+          <img src="/images/badge/thenff.png" alt="Nigeria Football Federation" width="120" height="90" loading="lazy" class="max-h-16 w-auto object-contain" />
+        </div>
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-5 flex items-center justify-center">
+          <img src="/images/badge/thecaf.png" alt="Confederation of African Football" width="120" height="90" loading="lazy" class="max-h-16 w-auto object-contain" />
+        </div>
+        <div class="bg-mfc-off-white border border-mfc-grey-100 p-5 flex items-center justify-center">
+          <img src="/images/badge/fifao.png" alt="FIFA" width="120" height="90" loading="lazy" class="max-h-16 w-auto object-contain" />
+        </div>
+      </div>
+      <div class="bg-mfc-off-white border-l-4 border-mfc-gold p-5 mt-6">
+        <p class="font-body text-sm text-mfc-grey-800">
+          <strong>Note for staff:</strong> the exact nature of each relationship — regulation, registration,
+          association or competition participation — is pending confirmation by the club. This page shows the
+          published affiliations without claiming formal membership beyond what the club states.
+        </p>
       </div>
     </section>
   </div>
