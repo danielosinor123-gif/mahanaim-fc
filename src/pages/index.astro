@@ -37,7 +37,7 @@ const lastResult = results[0];
   <Fragment slot="header"><Header /></Fragment>
   <Fragment slot="footer"><Footer /></Fragment>
 
-  <!-- Section 2: Hero -->
+  <!-- Hero: one photograph, dark overlay -->
   <section class="relative bg-mfc-black text-white overflow-hidden">
     <img
       src="/images/about-club.jpg"
@@ -49,20 +49,20 @@ const lastResult = results[0];
     />
     <div class="absolute inset-0 bg-gradient-to-t from-mfc-black via-mfc-black/70 to-mfc-black/30" aria-hidden="true"></div>
     <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 md:pt-28 md:pb-24">
-      <p class="font-body uppercase text-mfc-gold tracking-[0.25em] text-xs sm:text-sm font-bold mb-5">Professional football development in Abuja</p>
+      <p class="font-body uppercase text-mfc-gold tracking-[0.25em] text-xs sm:text-sm font-bold mb-5">Football development in Abuja</p>
       <h1 class="display-hero max-w-4xl">
         Developing players for <span class="text-mfc-gold">personal excellence</span> and team success.
       </h1>
       <p class="font-body text-mfc-grey-300 max-w-2xl mt-6 text-base md:text-lg leading-relaxed">
-        Mahanaim Football Club — Football Excellence For Greater Good. An Abuja-based club,
-        launched in 2018, building disciplined footballers and pathways to professional opportunities.
+        Mahanaim Football Club is an Abuja-based association football club that develops disciplined
+        young players and builds pathways to competitive and professional football.
       </p>
       <div class="flex flex-wrap gap-4 mt-9">
         <a href="/join" class="btn-gold text-base px-8 py-4">Apply for a Trial</a>
         <a href="/club/story" class="btn-outline text-base">Explore the Club</a>
       </div>
     </div>
-    <!-- Stat strip: real facts only -->
+    <!-- Proof strip: verified facts only -->
     <div class="relative border-t border-mfc-grey-800/60 bg-mfc-black/80">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="stat-strip grid grid-cols-2 md:grid-cols-4 gap-6 py-8">
@@ -75,7 +75,7 @@ const lastResult = results[0];
     </div>
   </section>
 
-  <!-- Section 3: Latest result -->
+  <!-- Fixture and result strip: next fixture omitted (none confirmed); latest verified result shown -->
   <section class="band-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14">
       <div class="flex flex-wrap items-end justify-between gap-4 mb-7">
@@ -109,8 +109,31 @@ const lastResult = results[0];
     </div>
   </section>
 
-  <!-- Section 4: Club introduction -->
+  <!-- The Mahanaim pathway: 4 neutral steps -->
   <section class="band-off-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-7">
+        <p class="section-kicker">The Pathway</p>
+        <h2 class="section-title">How a player joins Mahanaim</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {['Submit an application', 'Receive a trial invitation if eligible', 'Attend assessment', "Receive the club's decision and onboarding information"].map((step, i) => (
+          <div class="bg-white border border-mfc-grey-100 border-l-4 border-l-mfc-gold p-5">
+            <p class="font-display font-bold text-mfc-gold text-3xl leading-none">0{i + 1}</p>
+            <p class="font-body text-sm text-mfc-grey-800 mt-3 leading-relaxed">{step}</p>
+          </div>
+        ))}
+      </div>
+      <div class="flex flex-wrap gap-4 mt-7">
+        <a href="/join" class="btn-gold">Start application</a>
+        <a href="/join" class="btn-outline-dark">How trials work</a>
+      </div>
+      <p class="font-body text-xs text-mfc-grey-600 mt-4">Submitting an application does not guarantee an invitation or a contract.</p>
+    </div>
+  </section>
+
+  <!-- Club introduction -->
+  <section class="band-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
       <div>
         <p class="section-kicker">The Club</p>
@@ -129,30 +152,32 @@ const lastResult = results[0];
     </div>
   </section>
 
-  <!-- Section 5: Join Mahanaim -->
-  <section class="bg-mfc-black text-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        <div>
-          <p class="section-kicker">Join Us</p>
-          <h2 class="section-title text-white mb-6">Your pathway starts here</h2>
-          <ul class="list-none p-0 m-0 space-y-4 font-body text-sm text-mfc-grey-300">
-            <li class="border-l-2 border-mfc-gold pl-4"><strong class="text-white block mb-0.5">Who can apply</strong>Committed young footballers seeking disciplined development. Under-18s apply with a parent or guardian.</li>
-            <li class="border-l-2 border-mfc-gold pl-4"><strong class="text-white block mb-0.5">The process</strong>Enquiry → assessment or trial → training and development → matches and exposure → progression opportunities.</li>
-            <li class="border-l-2 border-mfc-gold pl-4"><strong class="text-white block mb-0.5">Training location</strong>Mahanaim Arena, Burundi Street, Wuse Zone 5, Abuja (as referenced — confirm before travelling).</li>
-            <li class="border-l-2 border-mfc-gold pl-4"><strong class="text-white block mb-0.5">Trial windows</strong>Contact us for current dates — none are published right now.</li>
-          </ul>
-        </div>
-        <div class="bg-mfc-near-black border border-mfc-grey-800 p-8 flex flex-col justify-center">
-          <p class="font-display uppercase font-bold text-xl text-mfc-gold">Ready to be seen?</p>
-          <p class="font-body text-sm text-mfc-grey-300 mt-3 leading-relaxed">Submitting an application does not guarantee selection or a contract. We aim to respond within a few working days — and your application gets a reference number for follow-up.</p>
-          <a href="/join" class="btn-gold text-base px-8 py-4 mt-6 self-start">Start Application</a>
-        </div>
+  <!-- Development programmes: clean placeholders pending club information -->
+  <section class="band-off-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-7">
+        <p class="section-kicker">Development</p>
+        <h2 class="section-title">Development programmes & teams</h2>
+        <p class="font-body text-sm text-mfc-grey-600 mt-3">Programme details — age groups, training schedules, locations and fee policy — are published here once confirmed by the club. Nothing is shown until it is verified.</p>
       </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {[1, 2, 3].map((i) => (
+          <div class="bg-white border border-dashed border-mfc-grey-300 p-6">
+            <p class="font-display uppercase font-bold text-sm text-mfc-grey-600 tracking-wider mb-3">Programme {i}</p>
+            <ul class="list-none p-0 m-0 space-y-2 font-body text-sm text-mfc-grey-600">
+              <li>Age group — <em>information required from club</em></li>
+              <li>Training days & times — <em>information required from club</em></li>
+              <li>Location — <em>information required from club</em></li>
+              <li>Fee policy — <em>information required from club</em></li>
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p class="font-body text-xs text-mfc-grey-600 mt-5">In the meantime, <a href="/join" class="text-mfc-gold-hover font-semibold">apply for a trial</a> and the club will confirm the current programme structure with you directly.</p>
     </div>
   </section>
 
-  <!-- Section 6: Latest news -->
+  <!-- Latest news -->
   <section class="band-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14">
       <div class="flex flex-wrap items-end justify-between gap-4 mb-7">
@@ -179,7 +204,7 @@ const lastResult = results[0];
     </div>
   </section>
 
-  <!-- Section 7: Featured players -->
+  <!-- Featured players -->
   <section class="band-off-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14">
       <div class="flex flex-wrap items-end justify-between gap-4 mb-7">
@@ -197,14 +222,14 @@ const lastResult = results[0];
     </div>
   </section>
 
-  <!-- Section 8: Club development -->
+  <!-- Facilities and development: current vs planned -->
   <section class="band-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14">
       <p class="section-kicker">Development</p>
       <h2 class="section-title mb-7">Where we are, where we're going</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="card-lift bg-mfc-off-white border border-mfc-grey-100 p-7">
-          <p class="font-display uppercase font-bold text-sm text-mfc-grey-600 tracking-wider mb-3">Current facilities <span class="font-body normal-case font-normal text-xs">· in use now</span></p>
+          <p class="font-display uppercase font-bold text-sm text-mfc-grey-600 tracking-wider mb-3">Current training environment <span class="font-body normal-case font-normal text-xs">· in use now</span></p>
           <ul class="list-disc pl-5 font-body text-sm text-mfc-grey-800 space-y-2">
             <li>Training and matches on available pitches in Abuja</li>
             <li>Club office at Metta Plaza, Plot 100 Arab Road</li>
@@ -212,9 +237,9 @@ const lastResult = results[0];
           </ul>
         </div>
         <div class="card-lift bg-mfc-off-white border border-mfc-grey-100 p-7">
-          <p class="font-display uppercase font-bold text-sm text-mfc-grey-600 tracking-wider mb-3">Planned development <span class="font-body normal-case font-normal text-xs">· proposed, not built</span></p>
+          <p class="font-display uppercase font-bold text-sm text-mfc-grey-600 tracking-wider mb-3">Planned 13-hectare development <span class="font-body normal-case font-normal text-xs">· project status: proposed, not built</span></p>
           <ul class="list-disc pl-5 font-body text-sm text-mfc-grey-800 space-y-2">
-            <li>13-hectare site near Nnamdi Azikiwe International Airport (as published)</li>
+            <li>Site near Nnamdi Azikiwe International Airport (as published)</li>
             <li>Training pitches, accommodation, dining and media facilities</li>
             <li>Flagship stadium — all stages proposed, no completion dates claimed</li>
           </ul>
@@ -224,7 +249,7 @@ const lastResult = results[0];
     </div>
   </section>
 
-  <!-- Section 9: Media strip -->
+  <!-- Media strip -->
   <section class="band-off-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14">
       <div class="flex flex-wrap items-end justify-between gap-4 mb-7">
@@ -243,6 +268,24 @@ const lastResult = results[0];
         <a href="https://www.instagram.com/mahanaimfc2022/" target="_blank" rel="noopener noreferrer" class="text-mfc-gold-hover font-semibold">Instagram</a>
         <a href="https://www.facebook.com/profile.php?id=100083995110646" target="_blank" rel="noopener noreferrer" class="text-mfc-gold-hover font-semibold">Facebook</a>
         <a href="https://twitter.com/mahanaimFC" target="_blank" rel="noopener noreferrer" class="text-mfc-gold-hover font-semibold">X</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing Join CTA -->
+  <section class="relative bg-mfc-black text-white overflow-hidden">
+    <img src="/images/gallery-g3.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover object-center opacity-25" width="800" height="600" loading="lazy" />
+    <div class="absolute inset-0 bg-mfc-black/60" aria-hidden="true"></div>
+    <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 text-center">
+      <p class="font-body uppercase text-mfc-gold tracking-[0.25em] text-xs font-bold mb-4">Join Mahanaim FC</p>
+      <h2 class="display-hero text-white">Ready to take the next step?</h2>
+      <p class="font-body text-mfc-grey-300 max-w-xl mx-auto mt-5 leading-relaxed">
+        Apply for a trial and the club will confirm the next assessment date. Submitting an application
+        does not guarantee an invitation or a contract.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center mt-8">
+        <a href="/join" class="btn-gold text-base px-8 py-4">Apply for a Trial</a>
+        <a href="https://wa.me/2349074700128?text=Hello%20Mahanaim%20FC%2C%20I%20would%20like%20to%20enquire%20about%20trials." target="_blank" rel="noopener noreferrer" class="btn-outline text-base">Ask on WhatsApp</a>
       </div>
     </div>
   </section>
