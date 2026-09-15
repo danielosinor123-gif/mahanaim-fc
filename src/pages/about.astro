@@ -1,0 +1,11 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About Mahanaim FC" description="About Mahanaim Football Club — Abuja, Nigeria.">
+  <script is:inline>
+    window.location.replace('/club/');
+  </script>
+  <noscript><meta http-equiv="refresh" content="0;url=/club/" /></noscript>
+  <p class="font-body text-sm p-8">Redirecting to <a href="/club/" class="text-mfc-gold-hover font-semibold">About Mahanaim FC</a>…</p>
+</BaseLayout>

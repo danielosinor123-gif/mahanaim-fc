@@ -1,37 +1,367 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
 
-const sections = [
-  { name: 'Our Story', href: '/club/story', desc: 'History, launch and what drives the club.' },
-  { name: 'Mission, Vision & Values', href: '/club/mission-vision-values', desc: 'The principles guiding our actions.' },
-  { name: 'Leadership & Staff', href: '/club/leadership', desc: 'Management board and staff as published.' },
-  { name: 'Facilities and Development Plan', href: '/club/facilities', desc: 'Current facilities vs the proposed 13-hectare development.' },
-  { name: 'Governance and Verified Affiliations', href: '/club/governance', desc: 'Ownership, finance and affiliation status.' },
-];
+const staff = (await getCollection('staff')).sort((a, b) => a.data.order - b.data.order);
+const board = staff.filter((s) => s.data.department === 'Management');
+const operations = staff.filter((s) => ['Operations', 'Media'].includes(s.data.department));
+const technical = staff.filter((s) => s.data.department === 'Technical');
+const legal = staff.filter((s) => s.data.department === 'Legal');
+const partners = staff.filter((s) => s.data.department === 'Partner');
+const news = (await getCollection('news', ({ data }) => !data.draft));
 ---
 
-<BaseLayout title="The Club" description="About Mahanaim FC — history, mission, leadership, facilities and governance. Abuja, Nigeria. Est. 2018.">
+<BaseLayout
+  title="About Mahanaim FC"
+  description="About Mahanaim Football Club — founded in Abuja in 2018 to develop committed players and strengthen African football. History, beliefs, leadership and development plans."
+  ogImage="/images/badge/mahanaim-og.png"
+>
   <Fragment slot="header"><Header /></Fragment>
   <Fragment slot="footer"><Footer /></Fragment>
 
-  <section class="bg-mfc-black text-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 class="font-display font-bold uppercase text-4xl">The Club</h1>
-      <p class="font-body text-mfc-grey-300 mt-3 max-w-2xl">Mahanaim Football Club — an association football team based in Abuja, Nigeria's capital city. Officially launched in 2018 (as stated by the club).</p>
+  <!-- 1. Hero -->
+  <section class="relative bg-mfc-black text-white overflow-hidden">
+    <img
+      src="/images/about-club.jpg"
+      alt="Mahanaim FC players and officials gathered on the pitch in Abuja"
+      class="absolute inset-0 w-full h-full object-cover object-center opacity-35"
+      width="1000"
+      height="562"
+      loading="eager"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-mfc-black via-mfc-black/70 to-mfc-black/30" aria-hidden="true"></div>
+    <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 md:pt-32 md:pb-28">
+      <p class="reveal font-body uppercase text-mfc-gold tracking-[0.25em] text-xs sm:text-sm font-bold mb-5 flex items-center gap-3">
+        <span class="rule-grow inline-block h-[3px] w-12 bg-mfc-gold" aria-hidden="true"></span>
+        About Mahanaim FC
+      </p>
+      <h1 class="display-hero reveal max-w-4xl" style="--stagger: 90ms">
+        Building footballers. <span class="text-mfc-gold">Strengthening the game.</span>
+      </h1>
+      <p class="reveal font-body text-mfc-grey-300 max-w-2xl mt-6 text-base md:text-lg leading-relaxed" style="--stagger: 180ms">
+        A football club and player-development institution based in Abuja, Nigeria.
+      </p>
+      <a href="#our-story" class="reveal inline-flex items-center gap-2 font-display uppercase text-sm font-bold tracking-widest text-mfc-gold mt-9" style="--stagger: 260ms">
+        Our story
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7-7-7" /></svg>
+      </a>
     </div>
   </section>
 
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {sections.map((s) => (
-        <a href={s.href} class="group block bg-mfc-off-white border border-mfc-grey-100 p-6 hover:border-mfc-gold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-mfc-gold">
-          <h2 class="font-display uppercase text-xl font-bold text-mfc-grey-800 group-hover:text-mfc-gold-hover transition-colors">{s.name}</h2>
-          <p class="font-body text-sm text-mfc-grey-600 mt-2">{s.desc}</p>
-        </a>
-      ))}
+  <!-- 2. Club introduction -->
+  <section id="our-story" class="band-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-1 lg:grid-cols-5 gap-10">
+      <div class="lg:col-span-2">
+        <p class="reveal section-kicker">Our story</p>
+        <h2 class="reveal section-title" style="--stagger: 80ms">Founded with a purpose beyond the scoreline.</h2>
+      </div>
+      <div class="lg:col-span-3 lg:border-l lg:border-mfc-grey-100 lg:pl-10">
+        <div class="reveal font-body text-mfc-grey-800 leading-relaxed space-y-5 text-base md:text-lg">
+          <p>
+            Mahanaim Football Club is an Abuja-based football club focused on developing committed players
+            and contributing to a stronger football culture. Established in <strong>2018</strong>
+            (as stated by the club), it was created from a belief that African football development must
+            return to strong fundamentals: technical quality, discipline, longevity, ambition and
+            responsible leadership.
+          </p>
+          <p>
+            The club seeks to rebuild, revive and reawaken the consciousness of African football stakeholders —
+            players, executives, administrators, agents and sports journalists — to restore the fire that once
+            drove the success of African football legends.
+          </p>
+        </div>
+        <p class="reveal font-body text-xs text-mfc-grey-600 mt-5">History as published by the club, lightly edited for clarity — pending final approval.</p>
+      </div>
     </div>
-    <img src="/images/about-club.jpg" alt="Mahanaim FC squad and officials gathered on the pitch" width="1000" height="562" loading="lazy" class="w-full rounded mt-10 object-cover" />
-  </div>
+  </section>
+
+  <!-- 3. Founding milestone: only 2 verified milestones exist, so a founding-year callout replaces a timeline -->
+  <section class="band-off-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+        <div class="md:border-r md:border-mfc-grey-300 md:pr-8">
+          <p class="font-display font-bold text-mfc-gold text-7xl md:text-8xl leading-none">2018</p>
+          <p class="stat-label mt-2">Mahanaim FC officially launched</p>
+        </div>
+        <div class="md:col-span-2">
+          <p class="reveal font-body text-mfc-grey-800 leading-relaxed">
+            From a single launch in Abuja, the club has grown into a structured development side with a
+            published first-team squad, competitive results and a media presence documenting its progress.
+          </p>
+          <p class="reveal font-body text-sm text-mfc-grey-600 mt-4">
+            <strong>2026</strong> — current season and development stage.
+            Further milestones (first competitive season, training base, player milestones) will be added
+            once confirmed by the club — <em>details required from club</em>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. What we believe -->
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <p class="reveal section-kicker">What we believe</p>
+      <h2 class="reveal display-hero text-white mt-2">Progress is built together.</h2>
+      <p class="reveal font-body text-mfc-grey-300 max-w-3xl mt-6 text-base md:text-lg leading-relaxed" style="--stagger: 100ms">
+        In a globalised world, our core belief is that unity and cooperation drive progress. We foster
+        collaboration and interdependence among stakeholders, leveraging diverse perspectives to achieve
+        our club's objectives — our achievements are linked to the achievements of those around us.
+        We are stronger together, not alone.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+        {[
+          { n: '01', t: 'Personal excellence', b: 'Players take responsibility for their continued improvement — technical quality, consistency and ambition.' },
+          { n: '02', t: 'Team success', b: 'Individual progress supports the team and the club. Collective achievement comes before personal glory.' },
+          { n: '03', t: 'Football with purpose', b: 'Behaviour, dignity and contribution matter alongside performance — on the pitch and beyond it.' },
+        ].map((p, i) => (
+          <div class="reveal border-t-2 border-mfc-gold pt-5" style={`--stagger: ${i * 90}ms`}>
+            <p class="font-display font-bold text-mfc-gold text-sm tracking-widest">{p.n}</p>
+            <h3 class="font-display uppercase font-bold text-xl text-white mt-2">{p.t}</h3>
+            <p class="font-body text-sm text-mfc-grey-300 mt-3 leading-relaxed">{p.b}</p>
+          </div>
+        ))}
+      </div>
+      <p class="font-body text-xs text-mfc-grey-600 mt-8">Wording as published by the club, lightly edited — pending final approval.</p>
+    </div>
+  </section>
+
+  <!-- 5. Development method: framework only; paragraphs pending club interview -->
+  <section class="band-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="max-w-2xl mb-8">
+        <p class="reveal section-kicker">Development method</p>
+        <h2 class="reveal section-title">How the club develops people, not only footballers</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+        {[
+          { n: '1', t: 'Technical development', b: null },
+          { n: '2', t: 'Tactical understanding', b: null },
+          { n: '3', t: 'Physical preparation', b: null },
+          { n: '4', t: 'Character and discipline', b: 'Discipline, personal excellence and team success are commitments published across the club\'s identity — developed alongside footballing ability.' },
+        ].map((area, i) => (
+          <div class="reveal border-b border-mfc-grey-200 pb-6" style={`--stagger: ${i * 80}ms`}>
+            <div class="flex items-baseline gap-4">
+              <span class="font-display font-bold text-mfc-gold text-3xl leading-none">{area.n}</span>
+              <h3 class="font-display uppercase font-bold text-xl text-mfc-grey-800">{area.t}</h3>
+            </div>
+            {area.b ? (
+              <p class="font-body text-sm text-mfc-grey-800 mt-3 leading-relaxed">{area.b}</p>
+            ) : (
+              <p class="font-body text-sm text-mfc-grey-600 mt-3 italic">Detailed method description required from club — the club's technical team will confirm this area's approach.</p>
+            )}
+          </div>
+        ))}
+      </div>
+      <p class="reveal font-body text-xs text-mfc-grey-600 mt-6">Unconfirmed areas are labelled rather than invented. Training photography (drill, coach instruction, match action) will be added as the club supplies approved images.</p>
+    </div>
+  </section>
+
+  <!-- 6. Verified statistics strip (values verified from published site data; founding year static) -->
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="stat-strip grid grid-cols-2 md:grid-cols-4 gap-6 py-6" data-counter>
+        <div><p class="stat-number" data-count="23">23</p><p class="stat-label mt-1">Squad players published</p></div>
+        <div><p class="stat-number">2018</p><p class="stat-label mt-1">Founded · Abuja</p></div>
+        <div><p class="stat-number" data-count={String(news.length)}>{news.length}</p><p class="stat-label mt-1">Published articles</p></div>
+        <div><p class="stat-number" data-count="5">5</p><p class="stat-label mt-1">Published results</p></div>
+      </div>
+      <p class="font-body text-xs text-mfc-grey-600 mt-4">Figures reflect content published on this site through 2026 — no estimates.</p>
+    </div>
+  </section>
+
+  <!-- 7. Current environment vs proposed development -->
+  <section class="band-off-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <p class="reveal section-kicker">Facilities</p>
+      <h2 class="reveal section-title mb-8">What exists today, what is proposed</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="reveal bg-white border border-mfc-grey-100 p-7">
+          <p class="font-display uppercase font-bold text-sm text-mfc-grey-600 tracking-wider mb-4">A · Current training environment <span class="font-body normal-case font-normal text-xs">· in use now</span></p>
+          <img src="/images/gallery-g2.jpg" alt="Mahanaim FC players in training" width="800" height="600" loading="lazy" class="w-full h-44 object-cover rounded mb-4" />
+          <ul class="list-disc pl-5 font-body text-sm text-mfc-grey-800 space-y-2">
+            <li>Training and matches on available pitches in Abuja</li>
+            <li>Sessions referenced at Mahanaim Arena, Burundi Street, Wuse Zone 5 (confirm before travelling)</li>
+            <li>Club office at Metta Plaza, Suite FF7, Plot 100 Arab Road</li>
+          </ul>
+        </div>
+        <div class="reveal bg-white border border-mfc-grey-100 p-7" style="--stagger: 120ms">
+          <p class="font-display uppercase font-bold text-sm text-mfc-grey-600 tracking-wider mb-4">B · Future development <span class="font-body normal-case font-normal text-xs">· proposed master plan — not built</span></p>
+          <ul class="list-disc pl-5 font-body text-sm text-mfc-grey-800 space-y-2">
+            <li>13-hectare site near Nnamdi Azikiwe International Airport (as published)</li>
+            <li>Training pitches, player accommodation, dining and media facilities</li>
+            <li>Recreation village, staff estate and flagship stadium — all stages proposed, no completion dates claimed</li>
+          </ul>
+          <a href="/club/facilities" class="font-display uppercase text-sm font-bold text-mfc-gold-hover tracking-wider mt-4 inline-block hover:underline decoration-mfc-gold decoration-2 underline-offset-4">Full development plan →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Leadership and management board (no portraits supplied — text directory, no fake portraits) -->
+  <section class="band-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <p class="reveal section-kicker">Leadership</p>
+      <h2 class="reveal section-title mb-8">Management board</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {board.map((s, i) => (
+          <div class="reveal bg-mfc-off-white border border-mfc-grey-100 border-t-2 border-t-mfc-gold p-6" style={`--stagger: ${i * 70}ms`}>
+            <p class="font-display uppercase font-bold text-lg text-mfc-grey-800">{s.data.name}</p>
+            <p class="font-body text-sm text-mfc-grey-600 mt-1">{s.data.role}</p>
+          </div>
+        ))}
+      </div>
+      <p class="font-body text-xs text-mfc-grey-600 mt-5">Names and titles as published — leadership portraits will be added with consistent styling once supplied by the club.</p>
+    </div>
+  </section>
+
+  <!-- 9. Staff and support team (grouped; unnamed consultant entries described factually) -->
+  <section class="band-off-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <p class="reveal section-kicker">The team</p>
+      <h2 class="reveal section-title mb-8">Staff & support</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="reveal">
+          <h3 class="font-display uppercase font-bold text-lg text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-4">Operations & media</h3>
+          <ul class="font-body text-sm text-mfc-grey-800 space-y-2">
+            {operations.map((s) => <li class="flex justify-between border-b border-mfc-grey-100 pb-2"><span>{s.data.name}</span><span class="text-mfc-grey-600">{s.data.role}</span></li>)}
+          </ul>
+        </div>
+        <div class="reveal" style="--stagger: 80ms">
+          <h3 class="font-display uppercase font-bold text-lg text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-4">Technical & scouting</h3>
+          <ul class="font-body text-sm text-mfc-grey-800 space-y-2">
+            {technical.map((s) => <li class="flex justify-between border-b border-mfc-grey-100 pb-2"><span>{s.data.name}</span><span class="text-mfc-grey-600">{s.data.role}</span></li>)}
+          </ul>
+        </div>
+        <div class="reveal" style="--stagger: 160ms">
+          <h3 class="font-display uppercase font-bold text-lg text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-4">Legal & administration</h3>
+          <ul class="font-body text-sm text-mfc-grey-800 space-y-2">
+            {legal.map((s) => <li class="flex justify-between border-b border-mfc-grey-100 pb-2"><span>{s.data.name}</span><span class="text-mfc-grey-600">{s.data.role}</span></li>)}
+          </ul>
+        </div>
+        {partners.length > 0 && (
+          <div class="reveal" style="--stagger: 240ms">
+            <h3 class="font-display uppercase font-bold text-lg text-mfc-grey-800 border-l-2 border-mfc-gold pl-3 mb-4">Partners</h3>
+            <ul class="font-body text-sm text-mfc-grey-800 space-y-2">
+              {partners.map((s) => <li class="flex justify-between border-b border-mfc-grey-100 pb-2"><span>{s.data.name}</span><span class="text-mfc-grey-600">{s.data.role}</span></li>)}
+            </ul>
+          </div>
+        )}
+      </div>
+      <div class="reveal bg-white border border-mfc-grey-100 p-5 mt-8">
+        <p class="font-body text-xs text-mfc-grey-600">
+          <strong>Player welfare & performance support:</strong> the club publishes consultant roles covering referee
+          instruction, psychology, nutrition, gym instruction, physiotherapy, nursing, medicine and language
+          instruction. Individual names are shown once confirmed by the club — empty positions are not published.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Ownership and governance (rewritten for grammar, legal meaning preserved) -->
+  <section class="band-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-4xl">
+      <p class="reveal section-kicker">Ownership and governance</p>
+      <h2 class="reveal section-title mb-6">Privately owned, collectively led</h2>
+      <p class="reveal font-body text-mfc-grey-800 leading-relaxed">
+        Mahanaim Football Club is privately owned by a consortium of individuals whose collective approach is
+        intended to provide financial stability and a unified vision for the club's success. As published, the
+        club's financing combines personal contributions, donations, interest-free loans, grants, revenue from
+        player sales, merchandise, naming rights and other club-related investment.
+      </p>
+      <p class="reveal font-body text-xs text-mfc-grey-600 mt-4">
+        Ownership and finance wording as published, rewritten for grammar without changing legal meaning —
+        leadership confirmation requested before final publication.
+      </p>
+      <div class="reveal flex flex-wrap gap-4 mt-6">
+        <a href="/club/governance" class="btn-outline-dark">Governance & affiliations</a>
+        <a href="/safeguarding" class="btn-outline-dark">Safeguarding</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Affiliations: logos live on the governance page with as-published framing -->
+  <section class="band-off-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+      <p class="reveal font-body text-mfc-grey-800 max-w-2xl mx-auto">
+        The club's published affiliations — NFF, CAF and FIFA — are shown on the governance page
+        alongside their verification status.
+      </p>
+      <a href="/club/governance" class="reveal font-display uppercase text-sm font-bold text-mfc-gold-hover tracking-wider mt-3 inline-block hover:underline decoration-mfc-gold decoration-2 underline-offset-4">View affiliations →</a>
+    </div>
+  </section>
+
+  <!-- 12. Closing image and call to action -->
+  <section class="relative bg-mfc-black text-white overflow-hidden">
+    <img src="/images/gallery-g4.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover object-center opacity-20" width="800" height="600" loading="lazy" />
+    <div class="absolute inset-0 bg-mfc-black/75" aria-hidden="true"></div>
+    <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24 text-center">
+      <p class="reveal font-body uppercase text-mfc-gold tracking-[0.3em] text-xs sm:text-sm font-bold mb-5">The next chapter</p>
+      <h2 class="reveal display-hero text-white" style="--stagger: 90ms">Become part of Mahanaim FC.</h2>
+      <p class="reveal font-body text-mfc-grey-300 max-w-xl mx-auto mt-6 leading-relaxed" style="--stagger: 180ms">
+        Apply for a trial and the club will confirm the next assessment date. Submitting an application
+        does not guarantee an invitation or a contract.
+      </p>
+      <div class="reveal flex flex-wrap gap-4 justify-center mt-9" style="--stagger: 260ms">
+        <a href="/join" class="btn-gold text-base px-8 py-4">Apply for a Trial</a>
+        <a href="/contact" class="btn-outline text-base">Contact the Club</a>
+      </div>
+    </div>
+  </section>
+
+  <WhatsAppButton />
 </BaseLayout>
+
+<script>
+  // Play-once reveals; respects prefers-reduced-motion; no library.
+  const els = document.querySelectorAll('.reveal, .rule-grow');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced || !('IntersectionObserver' in window)) {
+    els.forEach((el) => el.classList.add('revealed'));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('revealed');
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+    );
+    els.forEach((el) => io.observe(el));
+  }
+
+  // Counter: animate once at ~40-50% visibility, 1.4s, comma formatting; founding year static.
+  const strip = document.querySelector('[data-counter]');
+  if (strip) {
+    const nums = strip.querySelectorAll('[data-count]');
+    const animate = () => {
+      nums.forEach((el) => {
+        const target = parseInt(el.getAttribute('data-count') || '0', 10);
+        const dur = 1400;
+        const t0 = performance.now();
+        const step = (t: number) => {
+          const p = Math.min((t - t0) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased).toLocaleString('en-US');
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    };
+    const reduced2 = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced2 || !('IntersectionObserver' in window)) {
+      // final values already in HTML
+    } else {
+      const io2 = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) { animate(); io2.disconnect(); }
+      }, { threshold: 0.45 });
+      io2.observe(strip);
+    }
+  }
+</script>
