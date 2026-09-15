@@ -325,3 +325,28 @@ h1.display-hero {
 @media (prefers-reduced-motion: reduce) {
   .btn-gold, .btn-outline-dark, .card-lift { transition: none; transform: none !important; }
 }
+
+/* ---- About-page motion system: subtle reveals, play once, reduced-motion safe ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--stagger, 0ms);
+  will-change: opacity, transform;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: none;
+}
+.rule-grow {
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.revealed .rule-grow, .rule-grow.revealed {
+  transform: scaleX(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .rule-grow { transform: none; transition: none; }
+}
