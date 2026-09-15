@@ -1,0 +1,154 @@
+---
+import { albums } from '@/data/albums';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+export async function getStaticPaths() {
+  return albums.map((a) => ({ params: { slug: a.slug }, props: { album: a } }));
+}
+
+const { album } = Astro.props;
+const landscape = (src: string) => !src.includes('players/');
+---
+
+<BaseLayout title={album.title} description={`${album.title} — Mahanaim FC gallery. ${album.context}`}>
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <p class="font-body text-mfc-grey-400 text-sm mb-3"><a href="/media" class="hover:text-mfc-gold">Club Gallery</a> / {album.category}</p>
+      <h1 class="display-hero">{album.title}</h1>
+      <p class="font-body text-mfc-grey-300 mt-4 max-w-2xl">{album.context}</p>
+      <p class="font-body text-xs text-mfc-grey-400 mt-2">{album.date} · {album.images.length} photos</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Hero image -->
+    <figure class="mb-8">
+      <button
+        data-lb="0"
+        class="block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-mfc-gold"
+        aria-label="Open image 1 of {album.images.length} in lightbox"
+      >
+        <img src={album.images[0].src} alt={album.images[0].alt} width="900" height="600" loading="eager" class="w-full max-h-[480px] object-cover rounded" />
+      </button>
+      <figcaption class="font-body text-xs text-mfc-grey-600 mt-2">{album.images[0].caption}</figcaption>
+    </figure>
+
+    <!-- Balanced grid: landscapes may span 2 columns; portraits in pairs -->
+    <div class="grid grid-cols-2 gap-4">
+      {album.images.slice(1).map((img, i) => (
+        <figure class={landscape(img.src) ? 'col-span-2' : 'col-span-1'}>
+          <button
+            data-lb={i + 1}
+            class="block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-mfc-gold"
+            aria-label={`Open image ${i + 2} of ${album.images.length} in lightbox`}
+          >
+            <img
+              src={img.src}
+              alt={img.alt}
+              width="800"
+              height={landscape(img.src) ? 533 : 853}
+              loading="lazy"
+              class:list={['w-full rounded object-cover', landscape(img.src) ? 'aspect-[3/2]' : 'aspect-[3/4]']}
+            />
+          </button>
+          <figcaption class="font-body text-xs text-mfc-grey-600 mt-2">{img.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <p class="font-body text-xs text-mfc-grey-600 mt-8">
+      Select any image to enlarge. Images published by the club — identifiable players appear with club-published
+      data and consent safeguards; see <a href="/safeguarding" class="text-mfc-gold-hover font-semibold">safeguarding</a>.
+    </p>
+  </div>
+
+  <!-- Lightbox -->
+  <div
+    id="lightbox"
+    class="hidden fixed inset-0 z-[60] bg-mfc-black/95"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Image viewer"
+  >
+    <button id="lb-close" class="absolute top-4 right-4 z-10 w-11 h-11 inline-flex items-center justify-center text-white hover:text-mfc-gold border border-white/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-mfc-gold" aria-label="Close image viewer">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+    </button>
+    <button id="lb-prev" class="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-10 w-11 h-11 md:w-12 md:h-12 inline-flex items-center justify-center text-white hover:text-mfc-gold border border-white/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-mfc-gold" aria-label="Previous image">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+    </button>
+    <button id="lb-next" class="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-10 w-11 h-11 md:w-12 md:h-12 inline-flex items-center justify-center text-white hover:text-mfc-gold border border-white/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-mfc-gold" aria-label="Next image">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+    </button>
+    <div class="h-full flex flex-col items-center justify-center px-14 md:px-24 py-16">
+      <img id="lb-img" src={album.images[0].src} alt={album.images[0].alt} class="max-h-[72vh] max-w-full object-contain" />
+      <div class="mt-4 text-center">
+        <p id="lb-caption" class="font-body text-sm text-white">{album.images[0].caption}</p>
+        <p id="lb-count" class="font-body text-xs text-mfc-grey-400 mt-1">1 of {album.images.length}</p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script define:vars={{ albumImages: album.images, reduced: false }}>
+  // Accessible lightbox: prev/next, keyboard arrows, Escape, counter, caption, scroll lock, no autoplay.
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lb-img');
+  const lbCaption = document.getElementById('lb-caption');
+  const lbCount = document.getElementById('lb-count');
+  let index = 0;
+  let lastFocus = null;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function show(i) {
+    index = (i + albumImages.length) % albumImages.length;
+    const img = albumImages[index];
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    lbCaption.textContent = img.caption;
+    lbCount.textContent = (index + 1) + ' of ' + albumImages.length;
+  }
+
+  function open(i) {
+    lastFocus = document.activeElement;
+    show(i);
+    lb.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lb-close').focus();
+  }
+
+  function close() {
+    lb.classList.add('hidden');
+    document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+  }
+
+  document.querySelectorAll('[data-lb]').forEach((b) =>
+    b.addEventListener('click', () => open(parseInt(b.dataset.lb, 10)))
+  );
+  document.getElementById('lb-close').addEventListener('click', close);
+  document.getElementById('lb-prev').addEventListener('click', () => show(index - 1));
+  document.getElementById('lb-next').addEventListener('click', () => show(index + 1));
+  lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+
+  document.addEventListener('keydown', (e) => {
+    if (lb.classList.contains('hidden')) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowLeft') show(index - 1);
+    else if (e.key === 'ArrowRight') show(index + 1);
+  });
+
+  // Touch swipe
+  let touchX = null;
+  lb.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', (e) => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) show(dx < 0 ? index + 1 : index - 1);
+    touchX = null;
+  }, { passive: true });
+</script>

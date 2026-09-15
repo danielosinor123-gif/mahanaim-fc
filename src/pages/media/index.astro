@@ -1,0 +1,83 @@
+---
+import { albums, categories } from '@/data/albums';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="Club Gallery" description="Mahanaim FC gallery — matchday, squad and club-life photography from Abuja.">
+  <Fragment slot="header"><Header /></Fragment>
+  <Fragment slot="footer"><Footer /></Fragment>
+
+  <section class="bg-mfc-black text-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="display-hero">Club Gallery</h1>
+      <p class="font-body text-mfc-grey-300 mt-4 max-w-2xl">Photography from Mahanaim FC matchdays, the 2026 squad and club life in Abuja — all images published by the club.</p>
+    </div>
+  </section>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Filters: only categories containing real media -->
+    <div class="flex flex-wrap gap-2 mb-8" role="group" aria-label="Filter albums by category">
+      <button data-filter="" class="filter-btn bg-mfc-grey-800 text-white font-display uppercase text-xs font-bold tracking-wider px-4 py-2.5" aria-pressed="true">All</button>
+      {categories.map((c) => (
+        <button data-filter={c} class="filter-btn bg-mfc-off-white border border-mfc-grey-200 text-mfc-grey-800 font-display uppercase text-xs font-bold tracking-wider px-4 py-2.5 hover:border-mfc-gold transition-colors" aria-pressed="false">{c}</button>
+      ))}
+      <a href="https://youtube.com/@mahanaimfcmedia844" target="_blank" rel="noopener noreferrer" class="font-display uppercase text-xs font-bold tracking-wider px-4 py-2.5 border border-mfc-grey-200 text-mfc-gold-hover hover:border-mfc-gold transition-colors">Video → YouTube</a>
+    </div>
+
+    <!-- Album grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="album-grid">
+      {albums.map((a) => (
+        <a
+          href={`/media/${a.slug}/`}
+          data-album-cat={a.category}
+          class="album-card group block bg-mfc-off-white border border-mfc-grey-100 card-lift overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-mfc-gold"
+          aria-label={`Open album: ${a.title} (${a.images.length} photos)`}
+        >
+          <div class="relative aspect-[3/2] overflow-hidden bg-mfc-grey-100">
+            <img src={a.cover} alt={a.coverAlt} width="800" height="533" loading="lazy" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
+            <span class="absolute top-3 left-3 bg-mfc-gold text-mfc-black px-2.5 py-1 font-display text-xs uppercase font-semibold tracking-wider">{a.category}</span>
+          </div>
+          <div class="p-5">
+            <h2 class="font-display uppercase font-bold text-lg text-mfc-grey-800 group-hover:text-mfc-gold-hover transition-colors">{a.title}</h2>
+            <p class="font-body text-xs text-mfc-grey-600 mt-1">{a.date} · {a.images.length} photos</p>
+          </div>
+        </a>
+      ))}
+    </div>
+    <p id="album-empty" class="hidden font-body text-sm text-mfc-grey-600 bg-mfc-off-white border border-mfc-grey-100 px-5 py-4">No albums in this category yet.</p>
+
+    <p class="font-body text-xs text-mfc-grey-600 mt-8">
+      Images are published by the club; identifiable players appear with club-published data and consent safeguards —
+      see our <a href="/safeguarding" class="text-mfc-gold-hover font-semibold">safeguarding notice</a>. Scouting enquiries
+      route through the <a href="/contact" class="text-mfc-gold-hover font-semibold">club</a>.
+    </p>
+  </div>
+</BaseLayout>
+
+<script>
+  // Accessible album filtering: only categories with real media exist.
+  const btns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards = document.querySelectorAll<HTMLElement>('[data-album-cat]');
+  const empty = document.getElementById('album-empty');
+  btns.forEach((b) =>
+    b.addEventListener('click', () => {
+      const v = b.dataset.filter ?? '';
+      btns.forEach((x) => {
+        const active = x === b;
+        x.setAttribute('aria-pressed', active ? 'true' : 'false');
+        x.className = active
+          ? 'filter-btn bg-mfc-grey-800 text-white font-display uppercase text-xs font-bold tracking-wider px-4 py-2.5'
+          : 'filter-btn bg-mfc-off-white border border-mfc-grey-200 text-mfc-grey-800 font-display uppercase text-xs font-bold tracking-wider px-4 py-2.5 hover:border-mfc-gold transition-colors';
+      });
+      let visible = 0;
+      cards.forEach((c) => {
+        const show = !v || c.dataset.albumCat === v;
+        c.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      if (empty) empty.classList.toggle('hidden', visible > 0);
+    })
+  );
+</script>
